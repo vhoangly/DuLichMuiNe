@@ -2,69 +2,65 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kế Hoạch Du Lịch 3N2Đ: Cao Lãnh - Mũi Né</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Kế Hoạch Du Lịch Gia Đình 3N2Đ: Cao Lãnh - Mũi Né</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: { brand: { 50: '#f0fdfa', 100: '#ccfbf1', 500: '#14b8a6', 600: '#0d9488', 700: '#0f766e', 800: '#115e59' } }
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        brand: { 50: '#f0fdfa', 100: '#ccfbf1', 200: '#99f6e4', 300: '#5eead4', 400: '#2dd4bf', 500: '#14b8a6', 600: '#0d9488', 700: '#0f766e', 800: '#115e59', 900: '#134e4a' }
+                    }
                 }
             }
         }
     </script>
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
-        .tab-content { display: none; animation: fadeIn 0.3s ease-in-out; }
-        .tab-content.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        body { -webkit-tap-highlight-color: transparent; background-color: #f8fafc; }
+        /* Ẩn scrollbar cho các tab di chuyển mượt */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
+        /* Hiệu ứng accordion cho lịch trình */
         .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
         
-        /* Tối ưu scrollbar cho mobile */
-        ::-webkit-scrollbar { width: 4px; height: 4px; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-        
-        /* Hiệu ứng nhấp nháy cho mục đang active (mô phỏng) */
-        @keyframes pulse-border {
-            0% { box-shadow: 0 0 0 0 rgba(20, 184, 166, 0.7); border-color: rgba(20, 184, 166, 1); }
-            70% { box-shadow: 0 0 0 10px rgba(20, 184, 166, 0); border-color: rgba(20, 184, 166, 0.3); }
-            100% { box-shadow: 0 0 0 0 rgba(20, 184, 166, 0); border-color: transparent; }
-        }
-        .active-schedule-item { animation: pulse-border 2s infinite; border: 2px solid theme('colors.brand.500') !important; background-color: theme('colors.brand.50') !important; }
+        /* Nút Floating */
+        .fab-container { position: fixed; bottom: 20px; right: 20px; z-index: 50; display: flex; flex-direction: column; gap: 12px; }
+        .fab-btn { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.15); color: white; cursor: pointer; transition: transform 0.2s; }
+        .fab-btn:active { transform: scale(0.95); }
+        .fab-location { background-color: #4f46e5; }
+        .fab-print { background-color: #1e293b; }
 
+        /* Hiệu ứng cho mục lịch trình đang active */
+        .active-schedule-item { border: 2px solid theme('colors.brand.500') !important; background-color: theme('colors.brand.50') !important; box-shadow: 0 4px 6px -1px rgba(20, 184, 166, 0.2); }
+
+        /* CSS dành riêng cho In ấn A4 */
         @media print {
-            body { background-color: white; color: black; }
-            .hide-on-print { display: none !important; }
-            .tab-content { display: block !important; opacity: 1 !important; transform: none !important; margin-bottom: 2rem; }
-            /* Khắc phục lỗi trang trắng khi in bằng cách cho phép ngắt trang trong khối */
-            .accordion-content { max-height: none !important; overflow: visible !important; page-break-inside: auto;} 
-            .shadow-sm, .shadow-md { box-shadow: none !important; border: 1px solid #ccc !important; }
-            
-            #tab-tongquan { page-break-before: auto; }
-            #tab-chuanbi { page-break-before: always; }
-            #tab-lichtrinh { page-break-before: always; }
-            #tab-diemden { page-break-before: always; }
-            #tab-chiphi { page-break-before: always; }
-            
-            #tab-tongquan::before { content: "PHẦN 1: TỔNG QUAN & LƯU Ý"; font-size: 20px; font-weight: bold; border-bottom: 2px solid #000; padding-bottom: 5px; display: block; margin-bottom: 15px;}
-            #tab-chuanbi::before { content: "PHẦN 2: CHECK-LIST CHUẨN BỊ"; font-size: 20px; font-weight: bold; border-bottom: 2px solid #000; padding-bottom: 5px; display: block; margin-bottom: 15px;}
-            #tab-lichtrinh::before { content: "PHẦN 3: LỊCH TRÌNH CHI TIẾT"; font-size: 20px; font-weight: bold; border-bottom: 2px solid #000; padding-bottom: 5px; display: block; margin-bottom: 15px;}
-            #tab-diemden::before { content: "PHẦN 4: ĐIỂM ĐẾN & DỊCH VỤ"; font-size: 20px; font-weight: bold; border-bottom: 2px solid #000; padding-bottom: 5px; display: block; margin-bottom: 15px;}
-            #tab-chiphi::before { content: "PHẦN 5: DỰ TOÁN NGÂN SÁCH"; font-size: 20px; font-weight: bold; border-bottom: 2px solid #000; padding-bottom: 5px; display: block; margin-bottom: 15px;}
-            
-            .print-break-avoid { page-break-inside: avoid; }
-            /* Chỉnh lại font size cho bản in nếu cần */
-            .print-larger-text { font-size: 14pt !important; }
-            .print-xl-text { font-size: 18pt !important; }
+            @page { margin: 1.5cm; }
+            body { background-color: white; font-size: 14pt; color: black; }
+            .hide-on-print, .fab-container { display: none !important; }
+            .print-break-avoid { page-break-inside: avoid; margin-bottom: 20px; }
+            .accordion-content { max-height: none !important; overflow: visible !important; }
+            .tab-content { display: block !important; page-break-before: always; }
+            .tab-content:first-of-type { page-break-before: avoid; }
+            #tab-tongquan::before { content: "PHẦN 1: TỔNG QUAN"; font-size: 24px; font-weight: bold; display: block; margin-bottom: 15px; color: #0f766e; border-bottom: 2px solid #ccc; padding-bottom: 5px;}
+            #tab-chuanbi::before { content: "PHẦN 2: CHUẨN BỊ"; font-size: 24px; font-weight: bold; display: block; margin-bottom: 15px; color: #0f766e; border-bottom: 2px solid #ccc; padding-bottom: 5px;}
+            #tab-lichtrinh::before { content: "PHẦN 3: LỊCH TRÌNH CHI TIẾT"; font-size: 24px; font-weight: bold; display: block; margin-bottom: 15px; color: #0f766e; border-bottom: 2px solid #ccc; padding-bottom: 5px;}
+            .shadow-sm, .shadow-md { box-shadow: none !important; border: 1px solid #e2e8f0 !important; }
+            a { text-decoration: none !important; color: black !important; }
         }
     </style>
 </head>
-<body class="text-gray-800 pb-24">
+<body class="text-gray-800 antialiased pb-24">
 
+    <!-- Header -->
     <header class="bg-brand-700 text-white sticky top-0 z-40 shadow-md hide-on-print">
         <div class="max-w-4xl mx-auto px-4 py-3 sm:py-4">
             <h1 class="text-lg sm:text-2xl font-bold flex items-center gap-2">
@@ -72,122 +68,106 @@
             </h1>
             <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] sm:text-sm mt-1 text-brand-100">
                 <span><i class="fa-solid fa-users"></i> 5 Người</span>
-                <span><i class="fa-solid fa-charging-station"></i> BYD Dolphin</span>
+                <span><i class="fa-solid fa-charging-station"></i> BYD Dolphin (50.2 kWh)</span>
             </div>
         </div>
-        
-        <div class="bg-white rounded-t-xl max-w-4xl mx-auto flex shadow-sm w-full overflow-x-auto" style="scrollbar-width: none;">
-            <button onclick="openTab('tab-tongquan')" class="tab-btn active flex-none sm:flex-1 py-2 sm:py-3 text-center text-brand-600 font-bold border-b-2 border-brand-500 bg-brand-50 text-xs sm:text-sm transition-colors w-[20%] sm:w-1/5 min-w-[70px] px-1 whitespace-nowrap">
-                <i class="fa-solid fa-clipboard-list block mb-1 text-base sm:text-lg"></i> Tổng quan
+
+        <!-- Tabs Navigation -->
+        <div class="bg-white rounded-t-xl mx-2 sm:mx-4 mt-2 flex overflow-hidden shadow-inner font-medium text-[10px] sm:text-sm">
+            <button onclick="switchTab('tongquan')" id="btn-tongquan" class="flex-1 py-2 sm:py-3 text-center text-brand-600 border-b-2 border-brand-500 bg-brand-50 transition-colors flex flex-col items-center gap-1">
+                <i class="fa-solid fa-clipboard-list text-lg"></i><span>Tổng quan</span>
             </button>
-            <button onclick="openTab('tab-chuanbi')" class="tab-btn flex-none sm:flex-1 py-2 sm:py-3 text-center text-gray-500 font-medium hover:bg-gray-50 text-xs sm:text-sm transition-colors w-[20%] sm:w-1/5 min-w-[70px] px-1 whitespace-nowrap">
-                <i class="fa-solid fa-suitcase block mb-1 text-base sm:text-lg"></i> Chuẩn bị
+            <button onclick="switchTab('chuanbi')" id="btn-chuanbi" class="flex-1 py-2 sm:py-3 text-center text-gray-500 border-b-2 border-transparent hover:bg-gray-50 transition-colors flex flex-col items-center gap-1">
+                <i class="fa-solid fa-suitcase text-lg"></i><span>Chuẩn bị</span>
             </button>
-            <button onclick="openTab('tab-lichtrinh')" class="tab-btn flex-none sm:flex-1 py-2 sm:py-3 text-center text-gray-500 font-medium hover:bg-gray-50 text-xs sm:text-sm transition-colors w-[20%] sm:w-1/5 min-w-[70px] px-1 whitespace-nowrap">
-                <i class="fa-solid fa-route block mb-1 text-base sm:text-lg"></i> Lịch trình
+            <button onclick="switchTab('lichtrinh')" id="btn-lichtrinh" class="flex-1 py-2 sm:py-3 text-center text-gray-500 border-b-2 border-transparent hover:bg-gray-50 transition-colors flex flex-col items-center gap-1">
+                <i class="fa-solid fa-route text-lg"></i><span>Lịch trình</span>
             </button>
-            <button onclick="openTab('tab-diemden')" class="tab-btn flex-none sm:flex-1 py-2 sm:py-3 text-center text-gray-500 font-medium hover:bg-gray-50 text-xs sm:text-sm transition-colors w-[20%] sm:w-1/5 min-w-[70px] px-1 whitespace-nowrap">
-                <i class="fa-solid fa-map-location-dot block mb-1 text-base sm:text-lg"></i> Điểm đến
+            <button onclick="switchTab('diemden')" id="btn-diemden" class="flex-1 py-2 sm:py-3 text-center text-gray-500 border-b-2 border-transparent hover:bg-gray-50 transition-colors flex flex-col items-center gap-1">
+                <i class="fa-solid fa-map-location-dot text-lg"></i><span>Điểm đến</span>
             </button>
-            <button onclick="openTab('tab-chiphi')" class="tab-btn flex-none sm:flex-1 py-2 sm:py-3 text-center text-gray-500 font-medium hover:bg-gray-50 text-xs sm:text-sm transition-colors w-[20%] sm:w-1/5 min-w-[70px] px-1 whitespace-nowrap">
-                <i class="fa-solid fa-wallet block mb-1 text-base sm:text-lg"></i> Chi phí
+            <button onclick="switchTab('chiphi')" id="btn-chiphi" class="flex-1 py-2 sm:py-3 text-center text-gray-500 border-b-2 border-transparent hover:bg-gray-50 transition-colors flex flex-col items-center gap-1">
+                <i class="fa-solid fa-wallet text-lg"></i><span>Chi phí</span>
             </button>
         </div>
     </header>
 
-    <main class="max-w-4xl mx-auto px-2 sm:p-6 mt-2">
+    <main class="max-w-4xl mx-auto p-3 sm:p-4 mt-2">
         
         <!-- Tab 1: Tổng Quan -->
-        <div id="tab-tongquan" class="tab-content active space-y-5 mt-2">
+        <div id="tab-tongquan" class="tab-content block space-y-4 sm:space-y-6">
             
-            <!-- Tóm Tắt Chuyến Đi -->
-            <div class="bg-gradient-to-r from-brand-600 to-brand-500 rounded-2xl shadow-md p-1 relative overflow-hidden">
-                <div class="absolute -right-10 -top-10 text-white/10 text-9xl"><i class="fa-solid fa-umbrella-beach"></i></div>
-                <div class="bg-white/95 rounded-xl p-4 sm:p-6 relative z-10 backdrop-blur-sm">
-                    <h2 class="text-xl sm:text-2xl font-black text-brand-800 mb-4 border-b-2 border-brand-100 pb-2">Hành Trình Gắn Kết Gia Đình</h2>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                            <p class="text-gray-500 font-medium text-sm">Điểm nhấn chuyến đi</p>
-                            <p class="text-gray-800 font-bold text-base sm:text-lg leading-tight mt-1">Trải nghiệm resort sát biển, thưởng thức hải sản và lẩu thả, khám phá văn hóa làng chài xưa.</p>
-                        </div>
-                        <div>
-                            <p class="text-gray-500 font-medium text-sm">Tiêu chí thiết kế</p>
-                            <ul class="text-gray-800 font-bold text-sm sm:text-base mt-1 space-y-1">
-                                <li><i class="fa-solid fa-check text-green-500 mr-1"></i> Ưu tiên sức khỏe Ông Bà (ít đi bộ)</li>
-                                <li><i class="fa-solid fa-check text-green-500 mr-1"></i> Có hồ bơi thỏa thích cho Bé</li>
-                                <li><i class="fa-solid fa-check text-green-500 mr-1"></i> Lộ trình tối ưu trạm sạc cho BYD</li>
-                            </ul>
-                        </div>
+            <!-- Tóm Tắt & Thời Tiết -->
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden flex flex-col md:flex-row">
+                <div class="bg-brand-50 p-4 md:w-1/3 border-b md:border-b-0 md:border-r border-brand-100 flex flex-col justify-center items-center text-center">
+                    <i class="fa-solid fa-umbrella-beach text-4xl text-brand-400 mb-2"></i>
+                    <h2 class="font-bold text-xl text-brand-800">Nghỉ Dưỡng Mũi Né</h2>
+                    <p class="text-sm text-brand-600 mt-1">3 Ngày 2 Đêm</p>
+                </div>
+                <div class="p-4 md:w-2/3 grid grid-cols-2 gap-4">
+                    <div class="bg-blue-50 p-3 rounded-xl border border-blue-100">
+                        <div class="text-xs text-blue-600 font-bold mb-1 uppercase">Cao Lãnh (30/08)</div>
+                        <div class="flex items-center gap-2 text-blue-800 font-medium"><i class="fa-solid fa-cloud-moon text-xl"></i> 26°C - Sáng mát</div>
+                    </div>
+                    <div class="bg-orange-50 p-3 rounded-xl border border-orange-100">
+                        <div class="text-xs text-orange-600 font-bold mb-1 uppercase">Mũi Né (30/08-01/09)</div>
+                        <div class="flex items-center gap-2 text-orange-800 font-medium"><i class="fa-solid fa-cloud-sun text-xl"></i> 27-32°C - Nắng dịu</div>
                     </div>
                 </div>
             </div>
 
             <!-- Lưu Ý Quan Trọng -->
-            <div class="bg-red-50 rounded-2xl shadow-sm p-4 sm:p-5 border-l-4 border-red-500">
-                <h3 class="text-lg sm:text-xl font-bold text-red-700 mb-3 flex items-center gap-2"><i class="fa-solid fa-triangle-exclamation"></i> Lưu Ý Đặc Biệt</h3>
-                <ul class="list-disc pl-5 space-y-2 text-red-800 font-medium text-base sm:text-lg">
-                    <li><strong>Bắt buộc:</strong> Mang CCCD của TẤT CẢ người lớn (nhất là Ông Bà) và Giấy Khai Sinh của bé để check-in Resort.</li>
+            <div class="bg-red-50 rounded-2xl shadow-sm p-4 border-l-4 border-red-500">
+                <h3 class="text-lg font-bold text-red-700 mb-3 flex items-center gap-2"><i class="fa-solid fa-triangle-exclamation"></i> Lưu Ý Đặc Biệt</h3>
+                <ul class="list-disc pl-5 space-y-2 text-red-800 font-medium">
+                    <li><strong>Bắt buộc:</strong> Mang CCCD của TẤT CẢ người lớn (nhất là Ông Bà) và Giấy Khai Sinh của bé.</li>
                     <li>Ông bà cần mang đủ thuốc huyết áp/đặc trị. Luôn có chai nước suối nhỏ bên người khi đi chơi.</li>
-                    <li>Ứng dụng sạc xe: Vui lòng nạp tiền sẵn vào App **EV ONE** và **Eboost** trước khi khởi hành để tiết kiệm thời gian.</li>
+                    <li><strong>Ứng dụng sạc xe:</strong> Tải sẵn App <strong class="bg-red-200 px-1 rounded">EV ONE</strong> và App <strong class="bg-red-200 px-1 rounded">Charge+</strong>. Đăng ký tài khoản và nạp sẵn 500.000đ vào mỗi app.</li>
                 </ul>
-            </div>
-
-            <!-- Bảng Dự Báo Thời Tiết -->
-            <div class="bg-gradient-to-br from-sky-50 to-blue-50 rounded-2xl shadow-sm p-4 sm:p-5 border border-sky-200">
-                <h3 class="text-lg sm:text-xl font-bold text-sky-900 mb-4 flex items-center gap-2"><i class="fa-solid fa-cloud-sun-rain text-sky-500"></i> Thời tiết (30/08 - 01/09)</h3>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="bg-white p-3 sm:p-4 rounded-xl border border-sky-100 shadow-sm flex items-center gap-4">
-                        <i class="fa-solid fa-cloud-moon text-4xl text-indigo-400"></i>
-                        <div>
-                            <p class="font-bold text-gray-800 text-base sm:text-lg">Cao Lãnh (Sáng sớm)</p>
-                            <p class="text-sky-700 font-bold text-lg sm:text-xl">25°C - 27°C</p>
-                            <p class="text-xs sm:text-sm text-gray-500 mt-1">Trời mát, rất êm ái khi lái xe sáng sớm.</p>
-                        </div>
-                    </div>
-                    <div class="bg-white p-3 sm:p-4 rounded-xl border border-sky-100 shadow-sm flex items-center gap-4">
-                        <i class="fa-solid fa-cloud-sun-rain text-4xl text-sky-400"></i>
-                        <div>
-                            <p class="font-bold text-gray-800 text-base sm:text-lg">Mũi Né (3 ngày)</p>
-                            <p class="text-sky-700 font-bold text-lg sm:text-xl">27°C - 32°C</p>
-                            <p class="text-xs sm:text-sm text-gray-500 mt-1">Sáng nắng đẹp, chiều tối có thể mưa rào nhẹ.</p>
-                        </div>
-                    </div>
-                </div>
             </div>
 
             <!-- Chiến lược Sạc EV -->
             <div class="bg-white rounded-2xl shadow-sm border border-brand-200 overflow-hidden">
-                <div class="bg-brand-50 px-4 sm:px-5 py-3 sm:py-4 border-b border-brand-100 flex items-center gap-3">
-                    <i class="fa-solid fa-bolt text-brand-500 text-xl sm:text-2xl"></i>
-                    <h2 class="font-bold text-brand-800 text-lg sm:text-xl">Chiến Lược Sạc EV (BYD Dolphin)</h2>
+                <div class="bg-brand-50 px-4 py-3 border-b border-brand-100 flex items-center gap-3">
+                    <i class="fa-solid fa-bolt text-brand-500 text-xl"></i>
+                    <h2 class="font-bold text-brand-800 text-lg">Chiến Lược Sạc EV (BYD Dolphin 50.2 kWh)</h2>
                 </div>
-                <div class="p-4 sm:p-5 space-y-5">
-                    <div class="flex gap-3 sm:gap-4 items-start">
-                        <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold shrink-0 text-base sm:text-lg">1</div>
+                <div class="p-4 space-y-4">
+                    <div class="flex gap-3 items-start">
+                        <div class="w-8 h-8 rounded-full bg-brand-100 flex items-center justify-center text-brand-600 font-bold shrink-0">1</div>
                         <div>
-                            <h3 class="font-bold text-gray-900 text-base sm:text-lg">Đêm 29/08 (Cao Lãnh)</h3>
-                            <p class="text-gray-700 text-sm sm:text-base mt-1">Cắm sạc chậm tại nhà đầy 100% pin qua đêm. 04:00 sáng khởi hành đón Ông bà tại Mỹ Quý và đi thẳng.</p>
+                            <h3 class="font-bold text-gray-900">Đêm 29/08 (Cao Lãnh)</h3>
+                            <p class="text-gray-700 mt-1">Cắm sạc chậm tại nhà đầy 100% pin qua đêm. 04:00 sáng khởi hành đón Ông bà tại Mỹ Quý và đi thẳng. (Tính an toàn: Full tải + Cao tốc xe đi được ~380km/lần sạc).</p>
                         </div>
                     </div>
-                    <div class="flex gap-3 sm:gap-4 items-start">
-                        <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold shrink-0 text-base sm:text-lg">2</div>
+                    <div class="flex gap-3 items-start">
+                        <div class="w-8 h-8 rounded-full bg-brand-100 flex items-center justify-center text-brand-600 font-bold shrink-0">2</div>
                         <div>
-                            <h3 class="font-bold text-gray-900 text-base sm:text-lg">Sáng 30/08 (Lượt đi: Sạc nhanh TP.HCM)</h3>
-                            <p class="text-gray-700 text-sm sm:text-base mt-1">Dừng tại Estella Place (Quận 2). Sạc nhanh EV ONE từ ~30% -> 90% (khoảng 45 phút). Gia đình đi WC, dạo mall cho thẳng lưng.</p>
+                            <h3 class="font-bold text-gray-900">Sáng 30/08 (Lượt đi: Nghỉ ngơi & Sạc xe)</h3>
+                            <p class="text-gray-700 mt-1 mb-2">Tránh kẹt xe nội ô TP.HCM, chọn lộ trình vành đai ngoài (Đại lộ Nguyễn Văn Linh) rộng rãi. Pin đến đây dự kiến tiêu hao khoảng 50% (Còn ~50% pin). Chọn 1 trong 2 trạm sau:</p>
+                            <ul class="list-disc pl-5 space-y-1 text-gray-700">
+                                <li><strong>PA 1 (Khuyên dùng): EV ONE - 1182 Nguyễn Văn Linh, Quận 7.</strong> Dùng App <strong>EV ONE</strong>. Nằm ngay trên trục đại lộ thênh thang. Sạc siêu nhanh 160kW.</li>
+                                <li><strong>PA 2: Charge+ (87 Hoàng Văn Thái, Phú Mỹ Hưng, Q7).</strong> Dùng App <strong>Charge+</strong>. Khu đô thị vắng xe, tiện ghé uống cafe sáng bóp chân tay cho ông bà.</li>
+                            </ul>
                         </div>
                     </div>
-                    <div class="flex gap-3 sm:gap-4 items-start">
-                        <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold shrink-0 text-base sm:text-lg">3</div>
+                    <div class="flex gap-3 items-start">
+                        <div class="w-8 h-8 rounded-full bg-brand-100 flex items-center justify-center text-brand-600 font-bold shrink-0">3</div>
                         <div>
-                            <h3 class="font-bold text-gray-900 text-base sm:text-lg">Lưu trú tại Mũi Né</h3>
-                            <p class="text-gray-700 text-sm sm:text-base mt-1">Cắm sạc chậm 220V qua đêm tại Resort HOẶC chạy sang NovaWorld Phan Thiết sạc siêu nhanh kết hợp tham quan.</p>
+                            <h3 class="font-bold text-gray-900">Lưu trú tại Phan Thiết / Mũi Né</h3>
+                            <p class="text-gray-700 mt-1 mb-2">Đến Mũi Né pin dự kiến còn khoảng ~41%. Để chuẩn bị pin cho lượt về, bạn có 3 lựa chọn sạc tại điểm đến:</p>
+                            <ul class="list-disc pl-5 space-y-1 text-gray-700">
+                                <li><strong>PA 1: Trạm Charge+ (1 Lê Lợi, TP. Phan Thiết).</strong> Dùng App <strong>Charge+</strong>. Cắm sạc 30 phút trong lúc ghé ăn trưa Cơm Niêu.</li>
+                                <li><strong>PA 2: Trạm EV ONE (NovaWorld Phan Thiết).</strong> Dùng App <strong>EV ONE</strong>. Kết hợp đưa gia đình đi tham quan NovaWorld.</li>
+                                <li><strong>PA 3: Palmira Resort.</strong> Kéo dây sạc di động 220V cắm qua đêm (Báo trước lễ tân & Tip bảo vệ).</li>
+                            </ul>
                         </div>
                     </div>
-                    <div class="flex gap-3 sm:gap-4 items-start">
-                        <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold shrink-0 text-base sm:text-lg">4</div>
+                    <div class="flex gap-3 items-start">
+                        <div class="w-8 h-8 rounded-full bg-brand-100 flex items-center justify-center text-brand-600 font-bold shrink-0">4</div>
                         <div>
-                            <h3 class="font-bold text-gray-900 text-base sm:text-lg">Trưa 01/09 (Lượt về: Sạc nhanh TP.HCM)</h3>
-                            <p class="text-gray-700 text-sm sm:text-base mt-1">Ghé trạm sạc trên cao tốc hoặc Thiso Mall sạc 40 phút rồi về thẳng Đồng Tháp.</p>
+                            <h3 class="font-bold text-gray-900">Trưa 01/09 (Lượt về: Sạc nhanh TP.HCM)</h3>
+                            <p class="text-gray-700 mt-1">Ghé lại trạm <strong>EV ONE Nguyễn Văn Linh (Q7)</strong>. Sạc bù khoảng 40 phút rồi thẳng tiến cao tốc Trung Lương về Miền Tây.</p>
                         </div>
                     </div>
                 </div>
@@ -195,691 +175,539 @@
         </div>
 
         <!-- Tab 2: Chuẩn Bị -->
-        <div id="tab-chuanbi" class="tab-content mt-2">
-            <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-4 sm:p-6 space-y-6 sm:space-y-8">
-                
-                <!-- Mục 1: Giấy tờ -->
-                <div>
-                    <h3 class="text-xl sm:text-2xl font-bold text-amber-600 border-b-2 border-amber-100 pb-2 mb-3 sm:mb-4"><i class="fa-solid fa-id-card"></i> Giấy Tờ & Tài Chính (Bắt Buộc)</h3>
-                    <ul class="list-disc list-outside text-base sm:text-lg text-gray-700 space-y-2 sm:space-y-3 ml-4 sm:ml-5">
-                        <li><strong>Căn Cước Công Dân (CCCD):</strong> Của TẤT CẢ người lớn (2 vợ chồng và 2 ông bà). Khách sạn bắt buộc phải có để làm thủ tục nhận phòng.</li>
-                        <li><strong>Giấy khai sinh (Bản photo/Bản sao):</strong> Dành cho bé trai 11 tuổi để chứng minh nhân thân khi check-in cùng gia đình.</li>
-                        <li><strong>Bằng lái xe & Giấy tờ xe:</strong> Kiểm tra kỹ hạn đăng kiểm, bảo hiểm và bằng lái của tài xế trước chuyến đi dài.</li>
-                        <li><strong>Tài chính:</strong> Thẻ ATM/Tín dụng. Nên mang theo một ít tiền mặt lẻ (khoảng 3 triệu đồng) để mua nước dọc đường, trả phí cầu đường (nếu thẻ ETC lỗi) hoặc mua hàng rong ven biển.</li>
+        <div id="tab-chuanbi" class="tab-content hidden space-y-4">
+            
+            <!-- Giấy Tờ & Tài Chính -->
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                <div class="bg-indigo-50 px-4 py-3 border-b border-indigo-100 flex items-center gap-2">
+                    <i class="fa-solid fa-id-card flex-shrink-0 text-indigo-600 text-xl"></i>
+                    <h3 class="font-bold text-indigo-800 text-lg">Giấy Tờ & Tài Chính (Quan trọng nhất)</h3>
+                </div>
+                <div class="p-4">
+                    <ul class="list-disc pl-5 space-y-2 text-gray-700">
+                        <li><strong>CCCD gắn chip:</strong> Của vợ chồng và đặc biệt của <strong>Ông Bà</strong>.</li>
+                        <li><strong>Giấy khai sinh bản sao/photo:</strong> Của bé trai (11 tuổi) để check-in khách sạn.</li>
+                        <li><strong>Giấy tờ xe:</strong> Đăng ký xe, Đăng kiểm, Bảo hiểm TNDS, Bằng lái xe.</li>
+                        <li><strong>Tài chính:</strong> Tiền mặt (khoảng 3-5 triệu lẻ để mua lặt vặt/ăn uống dọc đường), Thẻ ATM/Tín dụng.</li>
                     </ul>
                 </div>
+            </div>
 
-                <!-- Mục 2: Y tế -->
-                <div>
-                    <h3 class="text-xl sm:text-2xl font-bold text-red-600 border-b-2 border-red-100 pb-2 mb-3 sm:mb-4"><i class="fa-solid fa-briefcase-medical"></i> Y Tế & Chăm Sóc Sức Khỏe</h3>
-                    <ul class="list-disc list-outside text-base sm:text-lg text-gray-700 space-y-2 sm:space-y-3 ml-4 sm:ml-5">
-                        <li><strong>Chống say xe cho Bé (QUAN TRỌNG):</strong> 
-                            <ul class="list-circle list-inside mt-1 ml-2 sm:ml-4 space-y-1 text-gray-600">
+            <!-- Y Tế & Chăm Sóc Sức Khỏe -->
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                <div class="bg-red-50 px-4 py-3 border-b border-red-100 flex items-center gap-2">
+                    <i class="fa-solid fa-briefcase-medical flex-shrink-0 text-red-600 text-xl"></i>
+                    <h3 class="font-bold text-red-800 text-lg">Y Tế & Sức Khỏe</h3>
+                </div>
+                <div class="p-4">
+                    <ul class="list-disc pl-5 space-y-3 text-gray-700">
+                        <li>
+                            <strong class="text-red-700">Chống say xe cho Bé (QUAN TRỌNG):</strong>
+                            <ul class="list-circle pl-5 mt-1 space-y-1 text-sm">
                                 <li>Thuốc say xe (Nautamine/Vomina) hoặc miếng dán chống say (dán sau tai trước khi đi 30 phút).</li>
-                                <li>Kẹo gừng, kẹo bạc hà, hoặc quýt tươi (cho bé ngửi vỏ quýt rất hiệu quả).</li>
-                                <li>Mua sẵn xấp <strong>túi nôn chuyên dụng</strong> (loại có vòng nhựa ở miệng túi, sạch sẽ và không bị mùi). Khăn giấy ướt.</li>
+                                <li>Kẹo gừng, kẹo bạc hà, vỏ quýt tươi.</li>
+                                <li><strong>Túi nôn chuyên dụng:</strong> (loại có vòng nhựa ở miệng túi, sạch sẽ và không bị mùi). Khăn giấy ướt.</li>
                                 <li>Dầu tràm hoặc dầu gió (bôi nhẹ vào rốn hoặc cổ tay bé).</li>
-                                <li>Tuyệt đối không cho bé chơi điện thoại hay xem iPad trên xe. Hãy cho bé ngồi ghế giữa băng sau để nhìn thẳng về phía trước.</li>
+                                <li>Lưu ý: Không cho bé xem điện thoại/iPad trên xe, cài đặt xe ở mức phanh Regen thấp nhất.</li>
                             </ul>
                         </li>
-                        <li><strong>Thuốc kê đơn của Ông Bà:</strong> Thuốc huyết áp, tim mạch, tiểu đường... (Lấy đủ cơ số 3 ngày + dự phòng thêm 1 ngày).</li>
-                        <li><strong>Thuốc cơ bản khác:</strong> Thuốc tiêu hóa (Berberin/Smecta đề phòng ăn hải sản lạ bụng), Băng gội urgo, thuốc hạ sốt (Paracetamol).</li>
-                        <li><strong>Gối tựa chữ U:</strong> Đeo cổ trên xe oto, giúp ông bà và bé ngủ thẳng lưng không mỏi cổ.</li>
-                    </ul>
-                </div>
-                
-                <!-- Mục 3: Đồ dùng -->
-                <div>
-                    <h3 class="text-xl sm:text-2xl font-bold text-blue-600 border-b-2 border-blue-100 pb-2 mb-3 sm:mb-4"><i class="fa-solid fa-suitcase"></i> Đồ Dùng & Quần Áo</h3>
-                    <ul class="list-disc list-outside text-base sm:text-lg text-gray-700 space-y-2 sm:space-y-3 ml-4 sm:ml-5">
-                        <li><strong>Xe Điện:</strong> Cáp sạc di động 220V theo xe BYD (dùng cắm qua đêm tại khách sạn). Kiểm tra lốp xe trước khi đi.</li>
-                        <li><strong>Đồ bơi:</strong> 2-3 bộ mỗi người. Kính bơi, quần áo tắm thoải mái.</li>
-                        <li><strong>Trang phục:</strong> Quần áo thoáng mát, đồ thun mềm mại cho ông bà. Dép sandal hoặc dép kẹp để đi cát (không mang giày da cứng).</li>
-                        <li><strong>Chống nắng:</strong> Kem chống nắng, mũ vành rộng, áo khoác mỏng, kính râm. Ô dù cầm tay (rất cần cho ông bà đi tham quan lúc trời nắng).</li>
-                    </ul>
-                </div>
-                
-                <!-- Mục 4: Không nên mang -->
-                <div class="bg-orange-50 p-4 sm:p-5 rounded-xl border border-orange-200">
-                    <h3 class="text-lg sm:text-xl font-bold text-orange-800 mb-2 sm:mb-3"><i class="fa-solid fa-ban"></i> KHÔNG NÊN MANG THEO:</h3>
-                    <ul class="list-disc list-outside text-base sm:text-lg text-orange-800 space-y-1 sm:space-y-2 ml-4 sm:ml-5">
-                        <li>Giày cao gót, giày da cứng (vướng víu, dễ trơn trượt khi đi bộ ở biển và resort).</li>
-                        <li>Quá nhiều tiền mặt để tránh rủi ro đánh rơi (các hàng quán tại Mũi Né đều hỗ trợ quét mã QR).</li>
-                        <li>Vali size quá to, cứng (cốp xe BYD Dolphin không quá lớn, ưu tiên dùng 2-3 túi xách vải mềm / vali cabin nhét cốp sẽ linh hoạt hơn).</li>
+                        <li><strong>Thuốc của Ông Bà:</strong> Thuốc huyết áp, tim mạch, tiểu đường (Lấy đủ cơ số 3 ngày + dự phòng 1 ngày).</li>
+                        <li><strong>Thuốc cơ bản:</strong> Tiêu hóa (Berberin/Smecta đề phòng ăn hải sản lạ bụng), Băng gội urgo, thuốc hạ sốt (Paracetamol).</li>
                     </ul>
                 </div>
             </div>
-        </div>
 
-        <!-- Tab 3: Lịch trình -->
-        <div id="tab-lichtrinh" class="tab-content mt-2">
-            <div class="space-y-4">
-                
-                <!-- Ngày 1 -->
-                <div class="bg-white rounded-xl sm:rounded-2xl shadow-sm border border-gray-200 overflow-hidden print-break-avoid">
-                    <button class="w-full text-left px-3 sm:px-4 py-4 sm:py-6 font-bold text-gray-800 bg-gray-50 hover:bg-brand-50 flex justify-between items-center transition-colors group" onclick="toggleAccordion('day1')">
-                        <div class="flex items-center gap-3 sm:gap-4">
-                            <span class="bg-brand-500 text-white w-10 h-10 sm:w-14 sm:h-14 rounded-lg sm:rounded-xl flex items-center justify-center text-xl sm:text-3xl shadow-sm font-black">1</span>
-                            <div>
-                                <h3 class="text-xl sm:text-3xl font-black text-gray-900 leading-tight">30/08: Khởi hành & Đón gió</h3>
-                                <p class="text-sm sm:text-xl text-gray-500 mt-0.5 sm:mt-1 font-normal">Tháp Mười ➔ Mũi Né (Sạc xe, Tắm biển chiều)</p>
-                            </div>
-                        </div>
-                        <i id="icon-day1" class="fa-solid fa-chevron-down text-gray-400 group-hover:text-brand-500 text-xl sm:text-3xl transition-transform duration-300"></i>
-                    </button>
-                    
-                    <div id="day1" class="accordion-content">
-                        <!-- Không gian hiển thị các mục lịch trình. Sử dụng bố cục Flex-col trên di động -->
-                        <div class="p-3 sm:p-6 bg-white space-y-4 sm:space-y-6">
-                            
-                            <!-- Hạng mục 1 -->
-                            <div class="flex flex-col sm:flex-row gap-2 sm:gap-6 print-break-avoid pb-4 sm:pb-0" id="schedule-day1-0400">
-                                <div class="w-full sm:w-24 sm:pt-2 shrink-0 sm:text-right flex items-center sm:block">
-                                    <span class="text-2xl sm:text-4xl font-black text-indigo-600 mr-2 sm:mr-0">04:00</span>
-                                </div>
-                                <div class="flex-1 bg-indigo-50/50 rounded-xl sm:rounded-2xl p-4 sm:p-5 border border-indigo-100">
-                                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2 sm:mb-3">
-                                        <h4 class="font-bold text-xl sm:text-3xl text-indigo-900 mb-1 sm:mb-0">Xuất phát từ Cao Lãnh</h4>
-                                        <span class="bg-indigo-100 text-indigo-700 text-sm sm:text-xl font-bold px-2 py-1 rounded inline-flex items-center gap-1 w-fit"><i class="fa-solid fa-moon"></i> 25°C - Rất mát mẻ</span>
-                                    </div>
-                                    <p class="text-base sm:text-2xl text-gray-800 mb-3 sm:mb-4 leading-relaxed">Pin xe 100%. Dọn đồ lên cốp gọn gàng.<br>Vợ chồng khởi hành thẳng từ nhà ở Cao Lãnh di chuyển xuống Tháp Mười trong không khí sáng sớm rất êm ái.</p>
-                                    <div class="bg-red-100 text-red-800 p-2 sm:p-3 rounded-lg sm:rounded-xl mb-3 sm:mb-4 font-medium border border-red-200 text-sm sm:text-xl">
-                                        <i class="fa-solid fa-bell text-red-600 mr-1 sm:mr-2"></i> LƯU Ý: Cho bé ăn lót dạ nhẹ và uống thuốc say xe (hoặc dán miếng dán) trước khi lên xe 30 phút. Không ăn quá no hay uống sữa.
-                                    </div>
-                                    <div class="bg-white p-2 sm:p-3 rounded-lg sm:rounded-xl border border-indigo-100 flex flex-col gap-1 sm:gap-2">
-                                        <div class="text-gray-700 text-sm sm:text-2xl font-medium"><i class="fa-solid fa-route text-indigo-400 w-5 sm:w-6"></i> Nhà (Cao Lãnh) ➔ <a href="https://www.google.com/maps/search/?api=1&query=Mỹ+Quí,+Tháp+Mười,+Đồng+Tháp" target="_blank" class="text-indigo-700 font-bold hover:underline underline-offset-4 decoration-indigo-300">Mỹ Quý (Tháp Mười)</a></div>
-                                        <div class="text-indigo-700 font-bold bg-indigo-50 px-2 py-1 sm:px-3 sm:py-2 rounded-md sm:rounded-lg inline-block w-max text-sm sm:text-xl"><i class="fa-solid fa-car"></i> Lái xe: 45 phút (35 km)</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Hạng mục 2 -->
-                            <div class="flex flex-col sm:flex-row gap-2 sm:gap-6 print-break-avoid pb-4 sm:pb-0" id="schedule-day1-0500">
-                                <div class="w-full sm:w-24 sm:pt-2 shrink-0 sm:text-right flex items-center sm:block">
-                                    <span class="text-2xl sm:text-4xl font-black text-brand-600 mr-2 sm:mr-0">05:00</span>
-                                </div>
-                                <div class="flex-1 bg-gray-50 rounded-xl sm:rounded-2xl p-4 sm:p-5 border border-gray-200">
-                                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2 sm:mb-3">
-                                        <h4 class="font-bold text-xl sm:text-3xl text-gray-900 mb-1 sm:mb-0">Đón ông bà & Đi cao tốc</h4>
-                                        <span class="bg-gray-200 text-gray-700 text-sm sm:text-xl font-bold px-2 py-1 rounded inline-flex items-center gap-1 w-fit"><i class="fa-solid fa-cloud"></i> 25°C - Mát</span>
-                                    </div>
-                                    <p class="text-base sm:text-2xl text-gray-800 mb-3 sm:mb-4 leading-relaxed">Đến Tháp Mười rước ông bà, cất hành lý lên cốp. Chính thức khởi hành thẳng tiến tuyến N2 ➔ Cao tốc Trung Lương. Đường sớm vắng xe, chạy khỏe.</p>
-                                    <div class="bg-white p-2 sm:p-3 rounded-lg sm:rounded-xl border border-gray-200 flex flex-col gap-1 sm:gap-2">
-                                        <div class="text-gray-700 text-sm sm:text-2xl font-medium"><i class="fa-solid fa-route text-gray-400 w-5 sm:w-6"></i> Tháp Mười ➔ <a href="https://www.google.com/maps/search/?api=1&query=Trạm+dừng+chân+cao+tốc+Trung+Lương" target="_blank" class="text-gray-800 font-bold hover:underline underline-offset-4 decoration-gray-300">Trạm dừng chân Tiền Giang</a></div>
-                                        <div class="text-gray-800 font-bold bg-gray-100 px-2 py-1 sm:px-3 sm:py-2 rounded-md sm:rounded-lg inline-block w-max text-sm sm:text-xl"><i class="fa-solid fa-car"></i> Lái xe: 2 giờ (90 km)</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Hạng mục 3 -->
-                            <div class="flex flex-col sm:flex-row gap-2 sm:gap-6 print-break-avoid pb-4 sm:pb-0" id="schedule-day1-0700">
-                                <div class="w-full sm:w-24 sm:pt-2 shrink-0 sm:text-right flex items-center sm:block">
-                                    <span class="text-2xl sm:text-4xl font-black text-orange-500 mr-2 sm:mr-0">07:00</span>
-                                </div>
-                                <div class="flex-1 bg-orange-50/50 rounded-xl sm:rounded-2xl p-4 sm:p-5 border border-orange-100">
-                                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2 sm:mb-3">
-                                        <h4 class="font-bold text-xl sm:text-3xl text-gray-900 mb-1 sm:mb-0">Ăn sáng dọc đường</h4>
-                                        <span class="bg-orange-100 text-orange-700 text-sm sm:text-xl font-bold px-2 py-1 rounded inline-flex items-center gap-1 w-fit"><i class="fa-solid fa-cloud-sun"></i> 26°C</span>
-                                    </div>
-                                    <p class="text-base sm:text-2xl text-gray-800 mb-3 sm:mb-4 leading-relaxed">Ghé trạm dừng chân hoặc quán hủ tiếu Nam Vang ở Tiền Giang. Ăn sáng, cho ông bà vươn vai thư giãn gân cốt thoải mái.</p>
-                                    <div class="text-orange-700 font-bold bg-white border border-orange-200 px-2 py-1 sm:px-3 sm:py-2 rounded-md sm:rounded-lg inline-block text-sm sm:text-xl">
-                                        <i class="fa-solid fa-clock"></i> Nghỉ & Ăn: 45 phút
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Hạng mục 4 -->
-                            <div class="flex flex-col sm:flex-row gap-2 sm:gap-6 print-break-avoid pb-4 sm:pb-0" id="schedule-day1-0800">
-                                <div class="w-full sm:w-24 sm:pt-2 shrink-0 sm:text-right flex items-center sm:block">
-                                    <span class="text-2xl sm:text-4xl font-black text-blue-600 mr-2 sm:mr-0">08:00</span>
-                                </div>
-                                <div class="flex-1 bg-blue-50/70 rounded-xl sm:rounded-2xl p-4 sm:p-5 border border-blue-200">
-                                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2 sm:mb-3">
-                                        <h4 class="font-bold text-xl sm:text-3xl text-blue-900 mb-1 sm:mb-0">Sạc pin & Cafe (TP.HCM)</h4>
-                                        <span class="bg-blue-600 text-white text-sm sm:text-xl font-bold px-2 py-1 rounded shadow-sm inline-flex items-center gap-1 w-fit"><i class="fa-solid fa-bolt"></i> TRẠM SẠC</span>
-                                    </div>
-                                    <p class="text-base sm:text-2xl text-gray-800 mb-3 sm:mb-4 leading-relaxed">Đến hầm Estella Place (Quận 2). Cắm sạc nhanh. Cả nhà lên Mall máy lạnh dạo mát, uống nước trong lúc chờ đầy pin.</p>
-                                    <div class="bg-white p-2 sm:p-3 rounded-lg sm:rounded-xl border border-blue-100 flex flex-col gap-1 sm:gap-2 mb-2 sm:mb-3">
-                                        <div class="text-gray-700 text-sm sm:text-2xl font-medium"><i class="fa-solid fa-route text-blue-400 w-5 sm:w-6"></i> Tiền Giang ➔ <a href="https://www.google.com/maps/search/?api=1&query=Estella+Place+Quận+2+TP+HCM" target="_blank" class="text-blue-800 font-bold hover:underline underline-offset-4 decoration-blue-300">Estella Place</a></div>
-                                        <div class="text-blue-800 font-bold bg-blue-50 px-2 py-1 sm:px-3 sm:py-2 rounded-md sm:rounded-lg inline-block w-max text-sm sm:text-xl"><i class="fa-solid fa-car"></i> Lái xe: ~1h15p (65 km)</div>
-                                    </div>
-                                    <div class="text-blue-700 font-bold bg-white border border-blue-200 px-2 py-1 sm:px-3 sm:py-2 rounded-md sm:rounded-lg inline-block text-sm sm:text-xl mt-1 sm:mt-0">
-                                        <i class="fa-solid fa-clock"></i> Sạc & Nghỉ: 45 phút
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Hạng mục 5 -->
-                            <div class="flex flex-col sm:flex-row gap-2 sm:gap-6 print-break-avoid pb-4 sm:pb-0" id="schedule-day1-1230">
-                                <div class="w-full sm:w-24 sm:pt-2 shrink-0 sm:text-right flex items-center sm:block">
-                                    <span class="text-2xl sm:text-4xl font-black text-orange-600 mr-2 sm:mr-0">12:30</span>
-                                </div>
-                                <div class="flex-1 bg-white rounded-xl sm:rounded-2xl p-4 sm:p-5 border border-gray-200 shadow-sm">
-                                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2 sm:mb-3">
-                                        <h4 class="font-bold text-xl sm:text-3xl text-gray-900 mb-1 sm:mb-0">Ăn trưa tại Phan Thiết</h4>
-                                        <span class="bg-orange-100 text-orange-700 text-sm sm:text-xl font-bold px-2 py-1 rounded inline-flex items-center gap-1 w-fit"><i class="fa-solid fa-sun"></i> 32°C - Nắng</span>
-                                    </div>
-                                    <p class="text-base sm:text-2xl text-gray-800 mb-3 sm:mb-4 leading-relaxed">Vừa hết cao tốc, ghé ăn trưa ngay tại <strong>Cơm Niêu Panda</strong>. Món ăn truyền thống mềm, dễ tiêu cho người lớn tuổi.</p>
-                                    <div class="bg-gray-50 p-2 sm:p-3 rounded-lg sm:rounded-xl border border-gray-200 flex flex-col gap-1 sm:gap-2 mb-2 sm:mb-3">
-                                        <div class="text-gray-700 text-sm sm:text-2xl font-medium"><i class="fa-solid fa-route text-gray-400 w-5 sm:w-6"></i> Q2 (TP.HCM) ➔ <a href="https://www.google.com/maps/search/?api=1&query=Cơm+Niêu+Panda+Phan+Thiết" target="_blank" class="text-gray-800 font-bold hover:underline underline-offset-4 decoration-gray-300">Phan Thiết (Cơm Niêu Panda)</a></div>
-                                        <div class="text-gray-800 font-bold bg-white px-2 py-1 sm:px-3 sm:py-2 rounded-md sm:rounded-lg border border-gray-200 inline-block w-max text-sm sm:text-xl"><i class="fa-solid fa-car"></i> Lái xe: ~2h15p (175 km)</div>
-                                    </div>
-                                    <div class="text-orange-700 font-bold bg-white border border-orange-200 px-2 py-1 sm:px-3 sm:py-2 rounded-md sm:rounded-lg inline-block text-sm sm:text-xl mt-1 sm:mt-0">
-                                        <i class="fa-solid fa-clock"></i> Ăn trưa: 1 giờ
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Hạng mục 6 -->
-                            <div class="flex flex-col sm:flex-row gap-2 sm:gap-6 print-break-avoid pb-4 sm:pb-0" id="schedule-day1-1400">
-                                <div class="w-full sm:w-24 sm:pt-2 shrink-0 sm:text-right flex items-center sm:block">
-                                    <span class="text-2xl sm:text-4xl font-black text-cyan-600 mr-2 sm:mr-0">14:00</span>
-                                </div>
-                                <div class="flex-1 bg-cyan-50/50 rounded-xl sm:rounded-2xl p-4 sm:p-5 border border-cyan-200 shadow-sm">
-                                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2 sm:mb-3">
-                                        <h4 class="font-bold text-xl sm:text-3xl text-cyan-900 mb-1 sm:mb-0">Check-in Palmira Resort</h4>
-                                        <span class="bg-cyan-100 text-cyan-800 text-sm sm:text-xl font-bold px-2 py-1 rounded inline-flex items-center gap-1 w-fit"><i class="fa-solid fa-sun"></i> 31°C - Nắng dịu</span>
-                                    </div>
-                                    <div class="space-y-3 sm:space-y-4">
-                                        <div class="bg-white p-3 sm:p-4 rounded-lg sm:rounded-xl border border-cyan-100 text-base sm:text-2xl text-gray-800">
-                                            <strong class="text-cyan-700 text-lg sm:text-2xl block mb-1">14:00 - Nhận phòng:</strong> Tới nơi, lấy phòng. Cho ông bà nghỉ ngơi chợp mắt ngay cho khỏe người.
-                                        </div>
-                                        <div class="bg-gradient-to-r from-cyan-100 to-blue-100 p-3 sm:p-4 rounded-lg sm:rounded-xl border border-cyan-200 text-base sm:text-2xl text-gray-800">
-                                            <strong class="text-cyan-800 text-lg sm:text-2xl block mb-1"><i class="fa-solid fa-umbrella-beach"></i> 16:30 - Tắm Biển & Hồ Bơi:</strong> Nắng dịu. Cả nhà xuống tắm biển và hồ bơi sát biển tuyệt đẹp của Resort.
-                                        </div>
-                                    </div>
-                                    <div class="mt-3 sm:mt-4">
-                                        <div class="text-gray-700 text-sm sm:text-2xl font-medium mb-1"><i class="fa-solid fa-route text-cyan-400 w-5 sm:w-6"></i> Quán ăn ➔ <a href="https://www.google.com/maps/search/?api=1&query=Palmira+Beach+Resort+Spa+Mui+Ne" target="_blank" class="text-cyan-700 font-bold hover:underline underline-offset-4 decoration-cyan-300">Palmira Resort</a></div>
-                                        <div class="text-cyan-800 font-bold bg-cyan-50 px-2 py-1 sm:px-3 sm:py-2 rounded-md sm:rounded-lg inline-block w-max text-sm sm:text-xl"><i class="fa-solid fa-car"></i> Lái xe: 15 phút (10 km)</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Hạng mục 7 -->
-                            <div class="flex flex-col sm:flex-row gap-2 sm:gap-6 print-break-avoid" id="schedule-day1-1830">
-                                <div class="w-full sm:w-24 sm:pt-2 shrink-0 sm:text-right flex items-center sm:block">
-                                    <span class="text-2xl sm:text-4xl font-black text-gray-700 mr-2 sm:mr-0">18:30</span>
-                                </div>
-                                <div class="flex-1 bg-gray-50 rounded-xl sm:rounded-2xl p-4 sm:p-5 border border-gray-200">
-                                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2 sm:mb-3">
-                                        <h4 class="font-bold text-xl sm:text-3xl text-gray-900 mb-1 sm:mb-0">Hải Sản Tối Bờ Kè</h4>
-                                        <span class="bg-gray-200 text-gray-700 text-sm sm:text-xl font-bold px-2 py-1 rounded inline-flex items-center gap-1 w-fit"><i class="fa-solid fa-moon"></i> 27°C - Mát</span>
-                                    </div>
-                                    <p class="text-base sm:text-2xl text-gray-800 mb-3 sm:mb-4 leading-relaxed">Chạy xe vài phút ra <strong>Bờ Kè Mr.Crab</strong> hoặc nhà hàng lân cận ăn hải sản. Ăn xong về đi ngủ sớm lấy sức.</p>
-                                    <div class="text-gray-700 text-sm sm:text-2xl font-medium"><i class="fa-solid fa-route text-gray-400 w-5 sm:w-6"></i> Resort ➔ <a href="https://www.google.com/maps/search/?api=1&query=Hải+Sản+Bờ+Kè+Mr.+Crab+Mũi+Né" target="_blank" class="text-gray-800 font-bold hover:underline underline-offset-4 decoration-gray-300">Bờ kè Mr.Crab</a> (Lái xe 5 phút)</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <!-- Đồ Dùng Cá Nhân -->
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                <div class="bg-blue-50 px-4 py-3 border-b border-blue-100 flex items-center gap-2">
+                    <i class="fa-solid fa-suitcase-rolling flex-shrink-0 text-blue-600 text-xl"></i>
+                    <h3 class="font-bold text-blue-800 text-lg">Đồ Dùng & Quần Áo</h3>
                 </div>
-
-                <!-- Ngày 2 -->
-                <div class="bg-white rounded-xl sm:rounded-2xl shadow-sm border border-gray-200 overflow-hidden print-break-avoid mt-4">
-                    <button class="w-full text-left px-3 sm:px-4 py-4 sm:py-6 font-bold text-gray-800 bg-gray-50 hover:bg-brand-50 flex justify-between items-center transition-colors group" onclick="toggleAccordion('day2')">
-                        <div class="flex items-center gap-3 sm:gap-4">
-                            <span class="bg-brand-500 text-white w-10 h-10 sm:w-14 sm:h-14 rounded-lg sm:rounded-xl flex items-center justify-center text-xl sm:text-3xl shadow-sm font-black">2</span>
-                            <div>
-                                <h3 class="text-xl sm:text-3xl font-black text-gray-900 leading-tight">31/08: Khám phá & Ẩm thực</h3>
-                                <p class="text-sm sm:text-xl text-gray-500 mt-0.5 sm:mt-1 font-normal">Đồi cát đỏ, Bảo tàng Làng Chài, Lẩu Thả</p>
-                            </div>
-                        </div>
-                        <i id="icon-day2" class="fa-solid fa-chevron-down text-gray-400 group-hover:text-brand-500 text-xl sm:text-3xl transition-transform duration-300"></i>
-                    </button>
-                    
-                    <div id="day2" class="accordion-content">
-                        <div class="p-3 sm:p-6 bg-white space-y-4 sm:space-y-6">
-                            
-                            <!-- Hạng mục 1 (Sáng) -->
-                            <div class="flex flex-col sm:flex-row gap-2 sm:gap-6 print-break-avoid border-b sm:border-b-0 pb-4 sm:pb-0" id="schedule-day2-0630">
-                                <div class="w-full sm:w-24 sm:pt-2 shrink-0 sm:text-right flex items-center sm:block">
-                                    <span class="text-2xl sm:text-4xl font-black text-brand-600 mr-2 sm:mr-0">06:30</span>
-                                </div>
-                                <div class="flex-1 bg-white rounded-xl sm:rounded-2xl p-4 sm:p-5 border border-brand-100 shadow-sm">
-                                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2 sm:mb-3">
-                                        <h4 class="font-bold text-xl sm:text-3xl text-gray-900 mb-1 sm:mb-0">Ăn sáng Buffet</h4>
-                                        <span class="bg-brand-50 text-brand-700 text-sm sm:text-xl font-bold px-2 py-1 rounded inline-flex items-center gap-1 w-fit"><i class="fa-solid fa-sun"></i> 27°C - Nắng dịu</span>
-                                    </div>
-                                    <p class="text-base sm:text-2xl text-gray-800 leading-relaxed">Cả nhà dậy ăn sáng tại nhà hàng Resort để chuẩn bị đi tham quan lúc trời chưa nóng.</p>
-                                    <div class="text-gray-700 font-bold bg-gray-50 border border-gray-200 px-2 py-1 sm:px-3 sm:py-2 rounded-md sm:rounded-lg inline-block text-sm sm:text-xl mt-3 sm:mt-4">
-                                        <i class="fa-solid fa-clock"></i> Ăn sáng: 45 phút
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Hạng mục 2 (Bảo tàng) -->
-                            <div class="flex flex-col sm:flex-row gap-2 sm:gap-6 print-break-avoid pb-4 sm:pb-0" id="schedule-day2-0730">
-                                <div class="w-full sm:w-24 sm:pt-2 shrink-0 sm:text-right flex items-center sm:block">
-                                    <span class="text-2xl sm:text-4xl font-black text-orange-500 mr-2 sm:mr-0">07:30</span>
-                                </div>
-                                <div class="flex-1 bg-orange-50/50 rounded-xl sm:rounded-2xl p-4 sm:p-5 border border-orange-200">
-                                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2 sm:mb-3">
-                                        <h4 class="font-bold text-xl sm:text-3xl text-orange-900 mb-1 sm:mb-0">Bảo tàng Làng Chài Xưa</h4>
-                                        <span class="bg-orange-100 text-orange-800 text-sm sm:text-xl font-bold px-2 py-1 rounded inline-flex items-center gap-1 w-fit"><i class="fa-solid fa-sun"></i> 29°C</span>
-                                    </div>
-                                    <p class="text-base sm:text-2xl text-gray-800 mb-3 sm:mb-4 leading-relaxed">Chạy xe xuống Bảo tàng nước mắm. <strong>100% không gian máy lạnh, đường đi bằng phẳng</strong>. Ông bà rất thích, bé có thể xem show 3D cực đẹp.</p>
-                                    <div class="bg-white p-2 sm:p-3 rounded-lg sm:rounded-xl border border-orange-100 flex flex-col gap-1 sm:gap-2 mb-2 sm:mb-3">
-                                        <div class="text-gray-700 text-sm sm:text-2xl font-medium"><i class="fa-solid fa-route text-orange-400 w-5 sm:w-6"></i> Resort ➔ <a href="https://www.google.com/maps/search/?api=1&query=Bảo+tàng+Làng+Chài+Xưa+Mũi+Né" target="_blank" class="text-orange-700 font-bold hover:underline underline-offset-4 decoration-orange-300">Bảo tàng Làng chài</a></div>
-                                        <div class="text-orange-800 font-bold bg-orange-100 px-2 py-1 sm:px-3 sm:py-2 rounded-md sm:rounded-lg inline-block w-max text-sm sm:text-xl"><i class="fa-solid fa-car"></i> Lái xe: 15p (10 km)</div>
-                                    </div>
-                                    <div class="text-orange-700 font-bold bg-white border border-orange-200 px-2 py-1 sm:px-3 sm:py-2 rounded-md sm:rounded-lg inline-block text-sm sm:text-xl mt-1 sm:mt-0">
-                                        <i class="fa-solid fa-clock"></i> Thời gian chơi: ~1.5 giờ
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Hạng mục 3 (Đồi cát) -->
-                            <div class="flex flex-col sm:flex-row gap-2 sm:gap-6 print-break-avoid pb-4 sm:pb-0" id="schedule-day2-0930">
-                                <div class="w-full sm:w-24 sm:pt-2 shrink-0 sm:text-right flex items-center sm:block">
-                                    <span class="text-2xl sm:text-4xl font-black text-yellow-600 mr-2 sm:mr-0">09:30</span>
-                                </div>
-                                <div class="flex-1 bg-yellow-50 rounded-xl sm:rounded-2xl p-4 sm:p-5 border border-yellow-200">
-                                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2 sm:mb-3">
-                                        <h4 class="font-bold text-xl sm:text-3xl text-yellow-900 mb-1 sm:mb-0">Đồi Cát Đỏ (Hồng)</h4>
-                                        <span class="bg-yellow-100 text-yellow-800 text-sm sm:text-xl font-bold px-2 py-1 rounded inline-flex items-center gap-1 w-fit"><i class="fa-solid fa-sun"></i> 31°C - Hơi nắng</span>
-                                    </div>
-                                    <p class="text-base sm:text-2xl text-gray-800 mb-3 sm:mb-4 leading-relaxed">Ghé nhanh Đồi Cát. Bé có thể chơi trượt cát. Nếu nắng, ông bà ngồi quán nước mía dưới chân đồi mát mẻ xem cháu chơi.</p>
-                                    <div class="bg-white p-2 sm:p-3 rounded-lg sm:rounded-xl border border-yellow-100 flex flex-col gap-1 sm:gap-2 mb-2 sm:mb-3">
-                                        <div class="text-gray-700 text-sm sm:text-2xl font-medium"><i class="fa-solid fa-route text-yellow-400 w-5 sm:w-6"></i> Bảo Tàng ➔ <a href="https://www.google.com/maps/search/?api=1&query=Đồi+Cát+Đỏ+Mũi+Né" target="_blank" class="text-yellow-700 font-bold hover:underline underline-offset-4 decoration-yellow-300">Đồi Cát Đỏ</a></div>
-                                        <div class="text-yellow-800 font-bold bg-yellow-100 px-2 py-1 sm:px-3 sm:py-2 rounded-md sm:rounded-lg inline-block w-max text-sm sm:text-xl"><i class="fa-solid fa-car"></i> Lái xe: 20p (12 km)</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Hạng mục 4 (Trưa) -->
-                            <div class="flex flex-col sm:flex-row gap-2 sm:gap-6 print-break-avoid pb-4 sm:pb-0" id="schedule-day2-1200">
-                                <div class="w-full sm:w-24 sm:pt-2 shrink-0 sm:text-right flex items-center sm:block">
-                                    <span class="text-2xl sm:text-4xl font-black text-blue-600 mr-2 sm:mr-0">12:00</span>
-                                </div>
-                                <div class="flex-1 bg-white rounded-xl sm:rounded-2xl p-4 sm:p-5 border border-gray-200 shadow-sm">
-                                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2 sm:mb-3">
-                                        <h4 class="font-bold text-xl sm:text-3xl text-gray-900 mb-1 sm:mb-0">Ăn trưa & Nghỉ trưa</h4>
-                                        <span class="bg-gray-100 text-gray-800 text-sm sm:text-xl font-bold px-2 py-1 rounded inline-flex items-center gap-1 w-fit"><i class="fa-solid fa-sun"></i> 32°C - Nắng gắt</span>
-                                    </div>
-                                    <p class="text-base sm:text-2xl text-gray-800 leading-relaxed">Về lại Palmira Resort. Ăn trưa ngay tại nhà hàng của resort để ông bà không phải lên xe di chuyển thêm mệt mỏi. Sau đó về phòng ngủ trưa thẳng giấc tới 15:30.</p>
-                                    <div class="bg-gray-50 p-2 sm:p-3 rounded-lg sm:rounded-xl border border-gray-200 flex flex-col gap-1 sm:gap-2 mb-2 sm:mb-3 mt-3 sm:mt-4">
-                                        <div class="text-gray-700 text-sm sm:text-2xl font-medium"><i class="fa-solid fa-route text-gray-400 w-5 sm:w-6"></i> Đồi Cát ➔ <a href="https://www.google.com/maps/search/?api=1&query=Palmira+Beach+Resort+Spa+Mui+Ne" target="_blank" class="text-gray-800 font-bold hover:underline underline-offset-4 decoration-gray-300">Resort</a></div>
-                                        <div class="text-gray-800 font-bold bg-white px-2 py-1 sm:px-3 sm:py-2 rounded-md sm:rounded-lg border border-gray-200 inline-block w-max text-sm sm:text-xl"><i class="fa-solid fa-car"></i> Lái xe: ~15p (8 km)</div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- Hạng mục 5 (Chiều) -->
-                            <div class="flex flex-col sm:flex-row gap-2 sm:gap-6 print-break-avoid border-b sm:border-b-0 pb-4 sm:pb-0" id="schedule-day2-1600">
-                                <div class="w-full sm:w-24 sm:pt-2 shrink-0 sm:text-right flex items-center sm:block">
-                                    <span class="text-2xl sm:text-4xl font-black text-cyan-600 mr-2 sm:mr-0">16:00</span>
-                                </div>
-                                <div class="flex-1 bg-gradient-to-r from-cyan-50 to-blue-50 rounded-xl sm:rounded-2xl p-4 sm:p-5 border border-cyan-200 shadow-sm">
-                                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2 sm:mb-3">
-                                        <h4 class="font-bold text-xl sm:text-3xl text-cyan-900 mb-1 sm:mb-0"><i class="fa-solid fa-person-swimming mr-1 sm:mr-2"></i> Tắm Biển & Hồ Bơi cữ chiều</h4>
-                                        <span class="bg-cyan-100 text-cyan-800 text-sm sm:text-xl font-bold px-2 py-1 rounded inline-flex items-center gap-1 w-fit"><i class="fa-solid fa-sun"></i> 30°C - Nắng dịu</span>
-                                    </div>
-                                    <p class="text-base sm:text-2xl text-gray-800 leading-relaxed">Ngủ dậy, thay đồ bơi tắm cữ chiều. Hoặc có thể lấy xe lái dạo ra <strong>NovaWorld</strong> xem công viên giải trí (sẵn tiện cắm sạc siêu nhanh EV ONE nếu pin yếu).</p>
-                                    <div class="text-cyan-800 font-bold bg-white border border-cyan-200 px-2 py-1 sm:px-3 sm:py-2 rounded-md sm:rounded-lg inline-block text-sm sm:text-xl mt-3 sm:mt-4">
-                                        <i class="fa-solid fa-clock"></i> Bơi lội tự do: 1.5 - 2 giờ
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Hạng mục 6 (Tối) -->
-                            <div class="flex flex-col sm:flex-row gap-2 sm:gap-6 print-break-avoid" id="schedule-day2-1830">
-                                <div class="w-full sm:w-24 sm:pt-2 shrink-0 sm:text-right flex items-center sm:block">
-                                    <span class="text-2xl sm:text-4xl font-black text-gray-700 mr-2 sm:mr-0">18:30</span>
-                                </div>
-                                <div class="flex-1 bg-gray-50 rounded-xl sm:rounded-2xl p-4 sm:p-5 border border-gray-200">
-                                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2 sm:mb-3">
-                                        <h4 class="font-bold text-xl sm:text-3xl text-gray-900 mb-1 sm:mb-0">Thưởng thức Đặc Sản Địa Phương</h4>
-                                        <span class="bg-gray-200 text-gray-800 text-sm sm:text-xl font-bold px-2 py-1 rounded inline-flex items-center gap-1 w-fit"><i class="fa-solid fa-cloud-showers-heavy text-sky-500"></i> 27°C - Có thể mưa rào</span>
-                                    </div>
-                                    <p class="text-base sm:text-2xl text-gray-800 leading-relaxed">Đi ăn tối đổi vị với món Lẩu Thả Seahorse hoặc Bánh Xèo, Bánh Căn Mũi Né (Xem Tab Điểm Đến). Tối dạo mua quà lưu niệm.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Ngày 3 -->
-                <div class="bg-white rounded-xl sm:rounded-2xl shadow-sm border border-gray-200 overflow-hidden print-break-avoid mt-4">
-                    <button class="w-full text-left px-3 sm:px-4 py-4 sm:py-6 font-bold text-gray-800 bg-gray-50 hover:bg-brand-50 flex justify-between items-center transition-colors group" onclick="toggleAccordion('day3')">
-                        <div class="flex items-center gap-3 sm:gap-4">
-                            <span class="bg-brand-500 text-white w-10 h-10 sm:w-14 sm:h-14 rounded-lg sm:rounded-xl flex items-center justify-center text-xl sm:text-3xl shadow-sm font-black">3</span>
-                            <div>
-                                <h3 class="text-xl sm:text-3xl font-black leading-tight">01/09: Tạm biệt & Trở về</h3>
-                                <p class="text-sm sm:text-xl text-gray-500 mt-0.5 sm:mt-1 font-normal">Tắm biển cuối, Mua quà & Về Đồng Tháp</p>
-                            </div>
-                        </div>
-                        <i id="icon-day3" class="fa-solid fa-chevron-down text-gray-400 group-hover:text-brand-500 text-xl sm:text-3xl transition-transform duration-300"></i>
-                    </button>
-                    
-                    <div id="day3" class="accordion-content">
-                        <div class="p-3 sm:p-6 bg-white space-y-4 sm:space-y-6">
-                            
-                            <!-- Hạng mục 1 (Sáng) -->
-                            <div class="flex flex-col sm:flex-row gap-2 sm:gap-6 print-break-avoid border-b sm:border-b-0 pb-4 sm:pb-0" id="schedule-day3-0630">
-                                <div class="w-full sm:w-24 sm:pt-2 shrink-0 sm:text-right flex items-center sm:block">
-                                    <span class="text-2xl sm:text-4xl font-black text-cyan-600 mr-2 sm:mr-0">06:30</span>
-                                </div>
-                                <div class="flex-1 bg-cyan-50/50 rounded-xl sm:rounded-2xl p-4 sm:p-5 border border-cyan-100">
-                                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2 sm:mb-3">
-                                        <h4 class="font-bold text-xl sm:text-3xl text-cyan-900 mb-1 sm:mb-0"><i class="fa-solid fa-water mr-1 sm:mr-2"></i> Vẫy vùng lần cuối</h4>
-                                        <span class="bg-cyan-100 text-cyan-800 text-sm sm:text-xl font-bold px-2 py-1 rounded inline-flex items-center gap-1 w-fit"><i class="fa-solid fa-cloud-sun"></i> 27°C - Mát mẻ</span>
-                                    </div>
-                                    <p class="text-base sm:text-2xl text-gray-800 leading-relaxed">Tắm biển/hồ bơi sớm. Sau đó tắm nước ngọt, xuống ăn sáng Buffet và thu dọn hành lý.</p>
-                                    <div class="text-cyan-800 font-bold bg-white border border-cyan-200 px-2 py-1 sm:px-3 sm:py-2 rounded-md sm:rounded-lg inline-block text-sm sm:text-xl mt-3 sm:mt-4">
-                                        <i class="fa-solid fa-clock"></i> Bơi & Ăn sáng: 2 giờ
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- Hạng mục 2 (Check-out) -->
-                            <div class="flex flex-col sm:flex-row gap-2 sm:gap-6 print-break-avoid border-b sm:border-b-0 pb-4 sm:pb-0" id="schedule-day3-0900">
-                                <div class="w-full sm:w-24 sm:pt-2 shrink-0 sm:text-right flex items-center sm:block">
-                                    <span class="text-2xl sm:text-4xl font-black text-orange-500 mr-2 sm:mr-0">09:00</span>
-                                </div>
-                                <div class="flex-1 bg-orange-50/30 rounded-xl sm:rounded-2xl p-4 sm:p-5 border border-orange-100">
-                                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2 sm:mb-3">
-                                        <h4 class="font-bold text-xl sm:text-3xl text-gray-900 mb-1 sm:mb-0">Check-out & Mua Quà</h4>
-                                        <span class="bg-orange-100 text-orange-800 text-sm sm:text-xl font-bold px-2 py-1 rounded inline-flex items-center gap-1 w-fit"><i class="fa-solid fa-sun"></i> 29°C</span>
-                                    </div>
-                                    <p class="text-base sm:text-2xl text-gray-800 mb-3 sm:mb-4 leading-relaxed">Làm thủ tục trả phòng (Lưu ý lấy lại CCCD). Lên xe ghé vựa dọc đường mua Nước mắm, mực 1 nắng, chả cá.</p>
-                                </div>
-                            </div>
-                            
-                            <!-- Hạng mục 3 (Về) -->
-                            <div class="flex flex-col sm:flex-row gap-2 sm:gap-6 print-break-avoid pb-4 sm:pb-0" id="schedule-day3-1030">
-                                <div class="w-full sm:w-24 sm:pt-2 shrink-0 sm:text-right flex items-center sm:block">
-                                    <span class="text-2xl sm:text-4xl font-black text-red-500 mr-2 sm:mr-0">10:30</span>
-                                </div>
-                                <div class="flex-1 bg-red-50/30 rounded-xl sm:rounded-2xl p-4 sm:p-5 border border-red-200">
-                                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2 sm:mb-3">
-                                        <h4 class="font-bold text-xl sm:text-3xl text-gray-900 mb-1 sm:mb-0">Hồi hương</h4>
-                                        <span class="bg-red-100 text-red-800 text-sm sm:text-xl font-bold px-2 py-1 rounded inline-flex items-center gap-1 w-fit"><i class="fa-solid fa-sun"></i> 32°C - Nắng</span>
-                                    </div>
-                                    <p class="text-base sm:text-2xl text-gray-800 mb-3 sm:mb-4 leading-relaxed">Khởi hành lên cao tốc Phan Thiết ➔ Dầu Giây ➔ TP.HCM. Chặng đường về khá dài nên cần chạy êm ái.</p>
-                                    <div class="bg-red-100 text-red-800 p-2 sm:p-3 rounded-lg sm:rounded-xl mb-3 sm:mb-4 font-medium border border-red-200 text-sm sm:text-xl">
-                                        <i class="fa-solid fa-bell text-red-600 mr-1 sm:mr-2"></i> LƯU Ý: Cho bé uống/dán thuốc say xe lần nữa trước khi khởi hành về.
-                                    </div>
-                                    <div class="bg-white p-2 sm:p-3 rounded-lg sm:rounded-xl border border-red-200 flex flex-col gap-1 sm:gap-2">
-                                        <div class="text-gray-700 text-sm sm:text-2xl font-medium"><i class="fa-solid fa-route text-red-400 w-5 sm:w-6"></i> Mũi Né ➔ <a href="https://www.google.com/maps/search/?api=1&query=Thiso+Mall+Sala+Thủ+Thiêm" target="_blank" class="text-red-700 font-bold hover:underline underline-offset-4 decoration-red-300">Trạm Sạc (Thiso Mall Sala)</a></div>
-                                        <div class="text-red-800 font-bold bg-red-50 px-2 py-1 sm:px-3 sm:py-2 rounded-md sm:rounded-lg inline-block w-max text-sm sm:text-xl"><i class="fa-solid fa-car"></i> Lái xe: ~2h30p (180 km)</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Hạng mục 4 (Trạm sạc trưa) -->
-                            <div class="flex flex-col sm:flex-row gap-2 sm:gap-6 print-break-avoid pb-4 sm:pb-0" id="schedule-day3-1330">
-                                <div class="w-full sm:w-24 sm:pt-2 shrink-0 sm:text-right flex items-center sm:block">
-                                    <span class="text-2xl sm:text-4xl font-black text-blue-600 mr-2 sm:mr-0">13:30</span>
-                                </div>
-                                <div class="flex-1 bg-blue-50/70 rounded-xl sm:rounded-2xl p-4 sm:p-5 border border-blue-200">
-                                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2 sm:mb-3">
-                                        <h4 class="font-bold text-xl sm:text-3xl text-blue-900 mb-1 sm:mb-0">Sạc xe & Ăn trưa</h4>
-                                        <span class="bg-blue-600 text-white text-sm sm:text-xl font-bold px-2 py-1 rounded shadow-sm inline-flex items-center gap-1 w-fit"><i class="fa-solid fa-bolt"></i> TRẠM SẠC</span>
-                                    </div>
-                                    <p class="text-base sm:text-2xl text-gray-800 mb-3 sm:mb-4 leading-relaxed">Ghé Trạm dừng nghỉ (nếu có trụ sạc nhanh) hoặc Thiso Mall Sala (Thủ Thiêm). Cắm sạc 40 phút và ăn trưa.</p>
-                                    <div class="bg-white p-2 sm:p-3 rounded-lg sm:rounded-xl border border-blue-100 flex flex-col gap-1 sm:gap-2 mb-2 sm:mb-3">
-                                        <div class="text-gray-700 text-sm sm:text-2xl font-medium"><i class="fa-solid fa-route text-blue-400 w-5 sm:w-6"></i> TP.HCM ➔ <a href="https://www.google.com/maps/search/?api=1&query=Tháp+Mười+Đồng+Tháp" target="_blank" class="text-blue-700 font-bold hover:underline underline-offset-4 decoration-blue-300">Tháp Mười</a> ➔ <a href="https://www.google.com/maps/search/?api=1&query=Cao+Lãnh+Đồng+Tháp" target="_blank" class="text-blue-700 font-bold hover:underline underline-offset-4 decoration-blue-300">Cao Lãnh</a></div>
-                                        <div class="text-blue-800 font-bold bg-blue-50 px-2 py-1 sm:px-3 sm:py-2 rounded-md sm:rounded-lg inline-block w-max text-sm sm:text-xl"><i class="fa-solid fa-car"></i> Lái tiếp: ~2h45p (130 km)</div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- Hạng mục 5 (Về nhà) -->
-                            <div class="flex flex-col sm:flex-row gap-2 sm:gap-6 print-break-avoid" id="schedule-day3-1700">
-                                <div class="w-full sm:w-24 sm:pt-2 shrink-0 sm:text-right flex items-center sm:block">
-                                    <span class="text-2xl sm:text-4xl font-black text-gray-700 mr-2 sm:mr-0">17:00</span>
-                                </div>
-                                <div class="flex-1 bg-gradient-to-r from-gray-100 to-white rounded-xl sm:rounded-2xl p-4 sm:p-5 border border-gray-300 shadow-md">
-                                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2 sm:mb-3">
-                                        <h4 class="font-bold text-xl sm:text-3xl text-gray-900 mb-1 sm:mb-0"><i class="fa-solid fa-house-chimney text-brand-500 mr-1 sm:mr-2"></i> Về đến nhà</h4>
-                                        <span class="bg-gray-200 text-gray-700 text-sm sm:text-xl font-bold px-2 py-1 rounded inline-flex items-center gap-1 w-fit"><i class="fa-solid fa-moon"></i> 27°C</span>
-                                    </div>
-                                    <p class="text-base sm:text-2xl text-gray-800 leading-relaxed">Về đến Đồng Tháp an toàn. Kết thúc chuyến đi rực rỡ!</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="p-4">
+                    <ul class="list-disc pl-5 space-y-2 text-gray-700">
+                        <li><strong>Quần áo:</strong> Gọn nhẹ, thấm hút mồ hôi. Áo khoác mỏng cho sáng sớm. Áo dài tay/chống nắng khi ra đồi cát. Đồ bơi (cả nhà).</li>
+                        <li><strong>Phụ kiện:</strong> Nón rộng vành, kính râm, kem chống nắng, ô/dù (phòng mưa rào chiều tối).</li>
+                        <li><strong>Trên xe:</strong> 2 Gối tựa cổ chữ U (cho ông bà), 1 mền mỏng (cho bé ngủ), Nước suối chai nhỏ, đồ ăn vặt nhẹ (bánh quy, trái cây không mùi).</li>
+                        <li>Bộ sạc di động 220V theo xe BYD (để sạc qua đêm tại Resort).</li>
+                    </ul>
                 </div>
             </div>
-        </div>
-
-        <!-- Tab 4: Điểm đến & Dịch vụ -->
-        <div id="tab-diemden" class="tab-content space-y-6 mt-2">
             
-            <!-- Resort Đã Chốt -->
+            <div class="bg-gray-100 rounded-xl p-4 text-center text-gray-600 italic text-sm">
+                ❌ Không nên mang theo: Quá nhiều đồ ăn cồng kềnh (dọc đường rất nhiều trạm nghỉ), các vật dụng có mùi nặng lên xe.
+            </div>
+        </div>
+
+        <!-- Tab 3: Lịch Trình Chi Tiết -->
+        <div id="tab-lichtrinh" class="tab-content hidden space-y-4">
+            
+            <!-- NGÀY 1 -->
+            <div class="bg-white rounded-2xl shadow-sm border border-brand-100 overflow-hidden print-break-avoid">
+                <button onclick="toggleAccordion('day1')" class="w-full bg-brand-50 px-3 sm:px-5 py-4 flex items-center justify-between focus:outline-none">
+                    <div class="flex items-center gap-3">
+                        <div class="bg-brand-500 text-white w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center font-bold text-lg sm:text-xl shadow-sm">1</div>
+                        <div class="text-left">
+                            <h2 class="font-bold text-brand-900 text-xl sm:text-2xl">30/08: Khởi hành & Đón gió</h2>
+                            <p class="text-brand-600 text-sm sm:text-base mt-0.5">Tháp Mười ➔ Mũi Né (Sạc xe, Tắm biển chiều)</p>
+                        </div>
+                    </div>
+                    <i id="icon-day1" class="fa-solid fa-chevron-down text-brand-400 text-xl transition-transform duration-300"></i>
+                </button>
+                
+                <div id="content-day1" class="accordion-content">
+                    <div class="p-2 sm:p-4 space-y-4 bg-gray-50/50">
+                        
+                        <!-- 04:00 -->
+                        <div class="bg-white p-3 sm:p-5 rounded-2xl border border-gray-100 shadow-sm" id="schedule-day1-0400">
+                            <div class="flex flex-col gap-2 mb-3">
+                                <h3 class="text-3xl sm:text-4xl font-black text-brand-600 tracking-tight">04:00</h3>
+                                <div class="flex flex-wrap items-center justify-between gap-2">
+                                    <h4 class="font-bold text-xl sm:text-2xl text-gray-900">Xuất phát từ Cao Lãnh</h4>
+                                    <span class="bg-blue-100 text-blue-800 text-sm sm:text-base px-2 py-1 rounded-lg font-medium whitespace-nowrap"><i class="fa-solid fa-moon"></i> 25°C - Mát</span>
+                                </div>
+                            </div>
+                            <p class="text-base sm:text-lg text-gray-700 leading-relaxed mb-4">Pin xe 100%. Dọn đồ lên cốp gọn gàng. Vợ chồng khởi hành thẳng từ nhà ở Cao Lãnh di chuyển xuống Tháp Mười trong không khí sáng sớm rất êm ái.</p>
+                            
+                            <div class="bg-red-50 text-red-800 p-3 rounded-xl border border-red-100 mb-4 text-sm sm:text-base">
+                                <i class="fa-solid fa-bell"></i> LƯU Ý: Cho bé ăn lót dạ nhẹ và uống thuốc say xe (hoặc dán miếng dán) trước khi lên xe 30 phút. Không ăn quá no hay uống sữa.
+                            </div>
+
+                            <div class="bg-gray-50 p-3 rounded-xl border border-gray-200">
+                                <div class="text-gray-800 font-medium text-base sm:text-lg mb-2"><i class="fa-solid fa-route text-gray-400"></i> Nhà (Cao Lãnh) ➔ <a href="https://maps.app.goo.gl/yFwWzWqD142N7vLMA" target="_blank" class="text-brand-600 font-bold underline underline-offset-2">Mỹ Quý (Tháp Mười)</a></div>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="bg-white border border-gray-200 px-3 py-1.5 rounded-lg text-sm sm:text-base font-bold text-gray-700 shadow-sm"><i class="fa-solid fa-car"></i> Lái xe: 45 phút (35 km)</span>
+                                    <span class="bg-green-50 border border-green-200 px-3 py-1.5 rounded-lg text-sm sm:text-base font-bold text-green-700 shadow-sm"><i class="fa-solid fa-battery-full"></i> Pin: Còn 91% (~345km)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 05:00 -->
+                        <div class="bg-white p-3 sm:p-5 rounded-2xl border border-gray-100 shadow-sm" id="schedule-day1-0500">
+                            <div class="flex flex-col gap-2 mb-3">
+                                <h3 class="text-3xl sm:text-4xl font-black text-brand-600 tracking-tight">05:00</h3>
+                                <div class="flex flex-wrap items-center justify-between gap-2">
+                                    <h4 class="font-bold text-xl sm:text-2xl text-gray-900">Đón ông bà & Đi cao tốc</h4>
+                                    <span class="bg-blue-100 text-blue-800 text-sm sm:text-base px-2 py-1 rounded-lg font-medium whitespace-nowrap"><i class="fa-solid fa-cloud"></i> 25°C - Mát</span>
+                                </div>
+                            </div>
+                            <p class="text-base sm:text-lg text-gray-700 leading-relaxed mb-4">Đến Tháp Mười rước ông bà, cất hành lý lên cốp. Chính thức khởi hành thẳng tiến tuyến N2 ➔ Cao tốc Trung Lương. Đường sớm vắng xe, chạy khỏe.</p>
+                            <div class="bg-gray-50 p-3 rounded-xl border border-gray-200">
+                                <div class="text-gray-800 font-medium text-base sm:text-lg mb-2"><i class="fa-solid fa-route text-gray-400"></i> <a href="https://maps.app.goo.gl/yFwWzWqD142N7vLMA" target="_blank" class="text-brand-600 font-bold underline underline-offset-2">Tháp Mười</a> ➔ <a href="https://maps.app.goo.gl/tZ5NnB2Qv9G7Z4vL9" target="_blank" class="text-brand-600 font-bold underline underline-offset-2">Trạm dừng chân Tiền Giang</a></div>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="bg-white border border-gray-200 px-3 py-1.5 rounded-lg text-sm sm:text-base font-bold text-gray-700 shadow-sm"><i class="fa-solid fa-car"></i> Lái xe: 2 giờ (90 km)</span>
+                                    <span class="bg-green-50 border border-green-200 px-3 py-1.5 rounded-lg text-sm sm:text-base font-bold text-green-700 shadow-sm"><i class="fa-solid fa-battery-three-quarters"></i> Pin: Còn 67% (~254km)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 07:00 -->
+                        <div class="bg-white p-3 sm:p-5 rounded-2xl border border-gray-100 shadow-sm" id="schedule-day1-0700">
+                            <div class="flex flex-col gap-2 mb-3">
+                                <h3 class="text-3xl sm:text-4xl font-black text-brand-600 tracking-tight">07:00</h3>
+                                <div class="flex flex-wrap items-center justify-between gap-2">
+                                    <h4 class="font-bold text-xl sm:text-2xl text-gray-900">Ăn sáng dọc đường</h4>
+                                    <span class="bg-orange-100 text-orange-800 text-sm sm:text-base px-2 py-1 rounded-lg font-medium whitespace-nowrap"><i class="fa-solid fa-sun"></i> 26°C</span>
+                                </div>
+                            </div>
+                            <p class="text-base sm:text-lg text-gray-700 leading-relaxed mb-4">Ghé trạm dừng chân hoặc quán hủ tiếu Nam Vang/Phở dọc cao tốc. Cả nhà xuống vươn vai, đi vệ sinh thoải mái.</p>
+                            <span class="bg-orange-50 border border-orange-200 text-orange-700 px-3 py-1.5 rounded-lg text-sm sm:text-base font-bold shadow-sm inline-block"><i class="fa-solid fa-clock"></i> Ăn & Nghỉ: 45 phút</span>
+                        </div>
+
+                        <!-- 07:45 -->
+                        <div class="bg-white p-3 sm:p-5 rounded-2xl border border-gray-100 shadow-sm" id="schedule-day1-0745">
+                            <div class="flex flex-col gap-2 mb-3">
+                                <h3 class="text-3xl sm:text-4xl font-black text-brand-600 tracking-tight">07:45</h3>
+                                <h4 class="font-bold text-xl sm:text-2xl text-gray-900">Tiến về Sài Gòn (Đường vành đai)</h4>
+                            </div>
+                            <p class="text-base sm:text-lg text-gray-700 leading-relaxed mb-4">Tiếp tục chạy hết Cao tốc Trung Lương. Xuống cao tốc, quẹo phải hướng về <strong>Nguyễn Văn Linh (Quận 7)</strong> để tránh kẹt xe trung tâm.</p>
+                            <div class="bg-gray-50 p-3 rounded-xl border border-gray-200">
+                                <div class="text-gray-800 font-medium text-base sm:text-lg mb-2"><i class="fa-solid fa-route text-gray-400"></i> <a href="https://maps.app.goo.gl/tZ5NnB2Qv9G7Z4vL9" target="_blank" class="text-brand-600 font-bold underline underline-offset-2">Tiền Giang</a> ➔ <a href="https://maps.app.goo.gl/3A7tFWeWNKj2H1j86" target="_blank" class="text-brand-600 font-bold underline underline-offset-2">Trạm sạc Nguyễn Văn Linh (Q7)</a></div>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="bg-white border border-gray-200 px-3 py-1.5 rounded-lg text-sm sm:text-base font-bold text-gray-700 shadow-sm"><i class="fa-solid fa-car"></i> Lái xe: 1h 15p (65 km)</span>
+                                    <span class="bg-yellow-50 border border-yellow-200 px-3 py-1.5 rounded-lg text-sm sm:text-base font-bold text-yellow-700 shadow-sm"><i class="fa-solid fa-battery-half"></i> Pin đến nơi: Còn ~50% (~190km)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 09:00 -->
+                        <div class="bg-blue-50 p-3 sm:p-5 rounded-2xl border border-blue-200 shadow-sm" id="schedule-day1-0900">
+                            <div class="flex flex-col gap-2 mb-3">
+                                <h3 class="text-3xl sm:text-4xl font-black text-blue-700 tracking-tight">09:00</h3>
+                                <h4 class="font-bold text-xl sm:text-2xl text-blue-900">Sạc xe & Nghỉ ngơi (Q7)</h4>
+                            </div>
+                            <p class="text-base sm:text-lg text-gray-800 leading-relaxed mb-4">Mở App <strong>EV ONE</strong> hoặc <strong>Charge+</strong> cắm sạc nhanh xe (160kW). Cả nhà vào quán cafe ngay trạm nghỉ ngơi, uống nước thẳng lưng.</p>
+                            
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="bg-blue-600 text-white px-3 py-1.5 rounded-lg text-sm sm:text-base font-bold shadow-sm"><i class="fa-solid fa-plug-circle-bolt"></i> Cắm sạc lên 90% (Dự kiến chạy được 342km)</span>
+                                <span class="bg-white border border-blue-200 text-blue-700 px-3 py-1.5 rounded-lg text-sm sm:text-base font-bold shadow-sm inline-block"><i class="fa-solid fa-clock"></i> Sạc & Nghỉ: 45 phút</span>
+                            </div>
+                        </div>
+
+                        <!-- 09:45 -->
+                        <div class="bg-white p-3 sm:p-5 rounded-2xl border border-gray-100 shadow-sm" id="schedule-day1-0945">
+                            <div class="flex flex-col gap-2 mb-3">
+                                <h3 class="text-3xl sm:text-4xl font-black text-brand-600 tracking-tight">09:45</h3>
+                                <div class="flex flex-wrap items-center justify-between gap-2">
+                                    <h4 class="font-bold text-xl sm:text-2xl text-gray-900">Thẳng tiến Phan Thiết</h4>
+                                    <span class="bg-orange-100 text-orange-800 text-sm sm:text-base px-2 py-1 rounded-lg font-medium whitespace-nowrap"><i class="fa-solid fa-sun"></i> 30°C</span>
+                                </div>
+                            </div>
+                            <p class="text-base sm:text-lg text-gray-700 leading-relaxed mb-4">Lên xe chạy thẳng qua cầu Phú Mỹ ➔ Cao tốc Long Thành ➔ Dầu Giây ➔ Phan Thiết. Tuyến đường bao đẹp, xe êm.</p>
+                            <div class="bg-gray-50 p-3 rounded-xl border border-gray-200">
+                                <div class="text-gray-800 font-medium text-base sm:text-lg mb-2"><i class="fa-solid fa-route text-gray-400"></i> <a href="https://maps.app.goo.gl/3A7tFWeWNKj2H1j86" target="_blank" class="text-brand-600 font-bold underline underline-offset-2">Trạm sạc Q7</a> ➔ <a href="https://www.google.com/maps/search/?api=1&query=Cơm+Niêu+Panda+Phan+Thiết" target="_blank" class="text-brand-600 font-bold underline underline-offset-2">Cơm Niêu Panda (Phan Thiết)</a></div>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="bg-white border border-gray-200 px-3 py-1.5 rounded-lg text-sm sm:text-base font-bold text-gray-700 shadow-sm"><i class="fa-solid fa-car"></i> Lái xe: 2h 15p (175 km)</span>
+                                    <span class="bg-green-50 border border-green-200 px-3 py-1.5 rounded-lg text-sm sm:text-base font-bold text-green-700 shadow-sm"><i class="fa-solid fa-battery-half"></i> Pin đến nơi: Còn ~44% (~167km)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 12:00 -->
+                        <div class="bg-white p-3 sm:p-5 rounded-2xl border border-gray-100 shadow-sm" id="schedule-day1-1200">
+                            <div class="flex flex-col gap-2 mb-3">
+                                <h3 class="text-3xl sm:text-4xl font-black text-brand-600 tracking-tight">12:00</h3>
+                                <h4 class="font-bold text-xl sm:text-2xl text-gray-900">Ăn Trưa (Phan Thiết)</h4>
+                            </div>
+                            <p class="text-base sm:text-lg text-gray-700 leading-relaxed mb-4">Ghé nhà hàng <strong>Cơm Niêu Panda</strong>. Quán có máy lạnh, không gian gia đình, các món cá kho tộ, canh chua rất hợp cho ông bà ăn dễ tiêu.</p>
+                            <span class="bg-orange-50 border border-orange-200 text-orange-700 px-3 py-1.5 rounded-lg text-sm sm:text-base font-bold shadow-sm inline-block"><i class="fa-solid fa-clock"></i> Ăn trưa: 1 giờ</span>
+                        </div>
+
+                        <!-- 14:00 -->
+                        <div class="bg-cyan-50 p-3 sm:p-5 rounded-2xl border border-cyan-200 shadow-sm" id="schedule-day1-1400">
+                            <div class="flex flex-col gap-2 mb-3">
+                                <h3 class="text-3xl sm:text-4xl font-black text-cyan-700 tracking-tight">14:00</h3>
+                                <div class="flex flex-wrap items-center justify-between gap-2">
+                                    <h4 class="font-bold text-xl sm:text-2xl text-cyan-900">Check-in Palmira Resort</h4>
+                                    <span class="bg-cyan-100 text-cyan-800 text-sm sm:text-base px-2 py-1 rounded-lg font-medium whitespace-nowrap"><i class="fa-solid fa-sun"></i> 31°C - Nắng dịu</span>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-white p-3 rounded-xl border border-cyan-100 mb-3">
+                                <h5 class="font-bold text-lg text-cyan-800 mb-1">14:00 - Nhận phòng:</h5>
+                                <p class="text-gray-700">Tới nơi, lấy phòng. Cho ông bà nghỉ ngơi chợp mắt ngay cho khỏe người.</p>
+                            </div>
+                            <div class="bg-blue-100 p-3 rounded-xl border border-blue-200 mb-4">
+                                <h5 class="font-bold text-lg text-blue-900 mb-1"><i class="fa-solid fa-umbrella-beach"></i> 16:30 - Tắm Biển & Hồ Bơi:</h5>
+                                <p class="text-gray-700">Nắng dịu. Cả nhà xuống tắm biển và hồ bơi sát biển tuyệt đẹp của Resort.</p>
+                            </div>
+
+                            <div class="flex flex-col gap-2">
+                                <div class="text-gray-800 font-medium text-base sm:text-lg"><i class="fa-solid fa-route text-gray-400"></i> Quán ăn ➔ <a href="https://www.google.com/maps/search/?api=1&query=Palmira+Beach+Resort+Spa+Mui+Ne" target="_blank" class="text-brand-600 font-bold underline underline-offset-2">Palmira Resort</a></div>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="bg-white border border-gray-200 px-3 py-1.5 rounded-lg text-sm sm:text-base font-bold text-gray-700 shadow-sm"><i class="fa-solid fa-car"></i> Lái xe: 15 phút (10 km)</span>
+                                    <span class="bg-green-50 border border-green-200 px-3 py-1.5 rounded-lg text-sm sm:text-base font-bold text-green-700 shadow-sm"><i class="fa-solid fa-battery-quarter"></i> Pin: Còn ~41% (~155km)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 18:30 -->
+                        <div class="bg-white p-3 sm:p-5 rounded-2xl border border-gray-100 shadow-sm" id="schedule-day1-1830">
+                            <div class="flex flex-col gap-2 mb-3">
+                                <h3 class="text-3xl sm:text-4xl font-black text-brand-600 tracking-tight">18:30</h3>
+                                <div class="flex flex-wrap items-center justify-between gap-2">
+                                    <h4 class="font-bold text-xl sm:text-2xl text-gray-900">Hải Sản Tối Bờ Kè</h4>
+                                    <span class="bg-indigo-50 text-indigo-800 text-sm sm:text-base px-2 py-1 rounded-lg font-medium whitespace-nowrap"><i class="fa-solid fa-moon"></i> 27°C - Mát</span>
+                                </div>
+                            </div>
+                            <p class="text-base sm:text-lg text-gray-700 leading-relaxed mb-4">Chạy xe vài phút ra <strong><a href="https://www.google.com/maps/search/?api=1&query=Mr+Crab+Mui+Ne" target="_blank" class="text-brand-600 font-bold underline underline-offset-2">Bờ Kè Mr.Crab</a></strong> hoặc nhà hàng lân cận ăn hải sản. Ăn xong về đi ngủ sớm lấy sức.</p>
+                            <span class="bg-red-50 text-red-700 border border-red-200 px-3 py-1.5 rounded-lg text-sm sm:text-base font-bold shadow-sm inline-block"><i class="fa-solid fa-plug"></i> Resort: Kéo dây sạc 220V qua đêm (Lên 100%)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NGÀY 2 -->
+            <div class="bg-white rounded-2xl shadow-sm border border-brand-100 overflow-hidden print-break-avoid">
+                <button onclick="toggleAccordion('day2')" class="w-full bg-brand-50 px-3 sm:px-5 py-4 flex items-center justify-between focus:outline-none">
+                    <div class="flex items-center gap-3">
+                        <div class="bg-brand-500 text-white w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center font-bold text-lg sm:text-xl shadow-sm">2</div>
+                        <div class="text-left">
+                            <h2 class="font-bold text-brand-900 text-xl sm:text-2xl">31/08: Khám phá Mũi Né</h2>
+                            <p class="text-brand-600 text-sm sm:text-base mt-0.5">Bảo tàng Làng Chài, Đồi cát đỏ & Ăn trưa Resort</p>
+                        </div>
+                    </div>
+                    <i id="icon-day2" class="fa-solid fa-chevron-down text-brand-400 text-xl transition-transform duration-300"></i>
+                </button>
+                <div id="content-day2" class="accordion-content">
+                    <div class="p-2 sm:p-4 space-y-4 bg-gray-50/50">
+                        <div class="bg-green-50 p-3 rounded-xl text-green-800 font-medium text-center shadow-sm border border-green-200">
+                            <i class="fa-solid fa-battery-full text-xl mb-1 block"></i> Pin đầu ngày: Đã sạc đầy 100%. Dư dả đi chơi loanh quanh.
+                        </div>
+                        
+                        <!-- 07:00 -->
+                        <div class="bg-white p-3 sm:p-5 rounded-2xl border border-gray-100 shadow-sm">
+                            <h3 class="text-3xl sm:text-4xl font-black text-brand-600 mb-2 tracking-tight">07:00</h3>
+                            <h4 class="font-bold text-xl sm:text-2xl text-gray-900 mb-2">Ăn sáng Buffet</h4>
+                            <p class="text-base sm:text-lg text-gray-700">Dậy sớm ăn buffet tại Resort. Thong thả thưởng thức đồ ăn sáng để 8h có thể xuất phát đi chơi lúc trời còn chưa nắng gắt.</p>
+                        </div>
+
+                        <!-- 08:30 -->
+                        <div class="bg-white p-3 sm:p-5 rounded-2xl border border-gray-100 shadow-sm">
+                            <h3 class="text-3xl sm:text-4xl font-black text-brand-600 mb-2 tracking-tight">08:30</h3>
+                            <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+                                <h4 class="font-bold text-xl sm:text-2xl text-gray-900">Bảo Tàng Làng Chài Xưa</h4>
+                                <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-lg font-medium whitespace-nowrap">Máy lạnh 100%</span>
+                            </div>
+                            <p class="text-base sm:text-lg text-gray-700 mb-3">Lái xe ra <strong><a href="https://maps.app.goo.gl/9bN6PZQ2S5m8sVb66" target="_blank" class="text-brand-600 font-bold underline underline-offset-2">Làng Chài Xưa (Fish Sauce Museum)</a></strong>. Đây là bảo tàng nước mắm 3D độc đáo, có máy lạnh mát rượi, đường đi bằng phẳng rất khỏe cho ông bà tham quan và xem show nghệ thuật.</p>
+                            <span class="bg-white border border-gray-200 px-3 py-1.5 rounded-lg text-sm sm:text-base font-bold text-gray-700 shadow-sm inline-block"><i class="fa-solid fa-car"></i> Lái xe: 15 phút (12 km)</span>
+                        </div>
+
+                        <!-- 11:30 -->
+                        <div class="bg-orange-50 p-3 sm:p-5 rounded-2xl border border-orange-200 shadow-sm">
+                            <h3 class="text-3xl sm:text-4xl font-black text-orange-600 mb-2 tracking-tight">11:30</h3>
+                            <h4 class="font-bold text-xl sm:text-2xl text-orange-900 mb-2">Về Resort Ăn Trưa & Nghỉ Ngơi</h4>
+                            <p class="text-base sm:text-lg text-gray-800 mb-3">Trời bắt đầu nắng gắt. Về lại Resort ăn trưa gọi món (Alacarte) tại nhà hàng nội khu. Giá từ 200k-300k/người, đồ ăn sạch sẽ, ăn xong ông bà lên phòng ngủ trưa ngay rất tiện lợi.</p>
+                            <span class="bg-white border border-orange-200 text-orange-700 px-3 py-1.5 rounded-lg text-sm sm:text-base font-bold shadow-sm inline-block"><i class="fa-solid fa-bed"></i> Nghỉ trưa đến 15:30</span>
+                        </div>
+
+                        <!-- 15:30 -->
+                        <div class="bg-white p-3 sm:p-5 rounded-2xl border border-gray-100 shadow-sm">
+                            <h3 class="text-3xl sm:text-4xl font-black text-brand-600 mb-2 tracking-tight">15:30</h3>
+                            <h4 class="font-bold text-xl sm:text-2xl text-gray-900 mb-2">Đồi Cát Đỏ (Đồi Cát Bay)</h4>
+                            <p class="text-base sm:text-lg text-gray-700 mb-3">Trời dịu mát, lái xe ra <strong><a href="https://maps.app.goo.gl/2L4V3M5Z8Q6U3S88A" target="_blank" class="text-brand-600 font-bold underline underline-offset-2">Đồi Cát Đỏ</a></strong> chụp hình hoàng hôn, cho bé chơi trượt cát.</p>
+                            <span class="bg-white border border-gray-200 px-3 py-1.5 rounded-lg text-sm sm:text-base font-bold text-gray-700 shadow-sm inline-block"><i class="fa-solid fa-car"></i> Lái xe: 15 phút (9 km)</span>
+                        </div>
+                        
+                        <!-- 17:00 -->
+                        <div class="bg-blue-50 p-3 sm:p-5 rounded-2xl border border-blue-200 shadow-sm">
+                            <h3 class="text-3xl sm:text-4xl font-black text-blue-600 mb-2 tracking-tight">17:00</h3>
+                            <h4 class="font-bold text-xl sm:text-2xl text-blue-900 mb-2">Tắm Biển Lần 2 & Ăn Tối</h4>
+                            <p class="text-base sm:text-lg text-gray-800">Về lại Resort tắm biển, tắm hồ bơi buổi chiều. Sau đó có thể đi ăn Đặc sản <strong>Lẩu Thả Phan Thiết</strong> ở các nhà hàng gần đó.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NGÀY 3 -->
+            <div class="bg-white rounded-2xl shadow-sm border border-brand-100 overflow-hidden print-break-avoid">
+                <button onclick="toggleAccordion('day3')" class="w-full bg-brand-50 px-3 sm:px-5 py-4 flex items-center justify-between focus:outline-none">
+                    <div class="flex items-center gap-3">
+                        <div class="bg-brand-500 text-white w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center font-bold text-lg sm:text-xl shadow-sm">3</div>
+                        <div class="text-left">
+                            <h2 class="font-bold text-brand-900 text-xl sm:text-2xl">01/09: Tạm biệt & Trở về</h2>
+                            <p class="text-brand-600 text-sm sm:text-base mt-0.5">Tắm biển sáng, Sạc xe Q7 & Về Đồng Tháp</p>
+                        </div>
+                    </div>
+                    <i id="icon-day3" class="fa-solid fa-chevron-down text-brand-400 text-xl transition-transform duration-300"></i>
+                </button>
+                <div id="content-day3" class="accordion-content">
+                    <div class="p-2 sm:p-4 space-y-4 bg-gray-50/50">
+                        <div class="bg-green-50 p-3 rounded-xl text-green-800 font-medium text-center shadow-sm border border-green-200">
+                            <i class="fa-solid fa-battery-full text-xl mb-1 block"></i> Pin hiện tại: ~100% (Hoặc tối thiểu 90% nếu đi lại nhiều hôm qua).
+                        </div>
+
+                        <!-- 06:30 -->
+                        <div class="bg-white p-3 sm:p-5 rounded-2xl border border-gray-100 shadow-sm">
+                            <h3 class="text-3xl sm:text-4xl font-black text-brand-600 mb-2 tracking-tight">06:30</h3>
+                            <h4 class="font-bold text-xl sm:text-2xl text-gray-900 mb-2">Tắm biển sáng & Ăn sáng</h4>
+                            <p class="text-base sm:text-lg text-gray-700">Tận hưởng buổi sáng cuối cùng. Tắm biển sớm cực kỳ tốt cho sức khỏe ông bà. Tắm xong lên ăn sáng Buffet no nê.</p>
+                        </div>
+
+                        <!-- 10:30 -->
+                        <div class="bg-white p-3 sm:p-5 rounded-2xl border border-gray-100 shadow-sm">
+                            <h3 class="text-3xl sm:text-4xl font-black text-brand-600 mb-2 tracking-tight">10:30</h3>
+                            <h4 class="font-bold text-xl sm:text-2xl text-gray-900 mb-2">Check-out & Về Sài Gòn</h4>
+                            <p class="text-base sm:text-lg text-gray-700 mb-3">Làm thủ tục trả phòng, chất đồ lên cốp. <strong>Lưu ý cho bé uống thuốc say xe</strong> trước khi lên đường. Chạy thẳng cao tốc Dầu Giây - Long Thành về lại <strong>Quận 7 (Đại lộ Nguyễn Văn Linh)</strong>.</p>
+                            
+                            <div class="bg-gray-50 p-3 rounded-xl border border-gray-200">
+                                <div class="text-gray-800 font-medium text-base sm:text-lg mb-2"><i class="fa-solid fa-route text-gray-400"></i> Mũi Né ➔ <a href="https://maps.app.goo.gl/3A7tFWeWNKj2H1j86" target="_blank" class="text-brand-600 font-bold underline underline-offset-2">Trạm Sạc EV Nguyễn Văn Linh (Q7)</a></div>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="bg-white border border-gray-200 px-3 py-1.5 rounded-lg text-sm sm:text-base font-bold text-gray-700 shadow-sm"><i class="fa-solid fa-car"></i> Lái xe: 2h 30p (180 km)</span>
+                                    <span class="bg-yellow-50 border border-yellow-200 px-3 py-1.5 rounded-lg text-sm sm:text-base font-bold text-yellow-700 shadow-sm"><i class="fa-solid fa-battery-half"></i> Pin đến nơi: Còn ~53% (~201km)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 13:00 -->
+                        <div class="bg-blue-50 p-3 sm:p-5 rounded-2xl border border-blue-200 shadow-sm">
+                            <h3 class="text-3xl sm:text-4xl font-black text-blue-700 mb-2 tracking-tight">13:00</h3>
+                            <h4 class="font-bold text-xl sm:text-2xl text-blue-900 mb-2">Sạc xe & Ăn Trưa (Q7)</h4>
+                            <p class="text-base sm:text-lg text-gray-800 mb-3">Ghé lại Trạm sạc <strong>EV ONE</strong>. Cắm sạc nhanh, ăn trưa nhẹ quanh đó rồi lên cao tốc Trung Lương về thẳng Miền Tây.</p>
+                            <span class="bg-blue-600 text-white px-3 py-1.5 rounded-lg text-sm sm:text-base font-bold shadow-sm inline-block"><i class="fa-solid fa-plug-circle-bolt"></i> Sạc lên 90-100% là dư xăng về Đồng Tháp</span>
+                        </div>
+
+                        <!-- 14:30 -->
+                        <div class="bg-white p-3 sm:p-5 rounded-2xl border border-gray-100 shadow-sm">
+                            <h3 class="text-3xl sm:text-4xl font-black text-brand-600 mb-2 tracking-tight">14:30</h3>
+                            <h4 class="font-bold text-xl sm:text-2xl text-gray-900 mb-2">Trở về Cao Lãnh</h4>
+                            <p class="text-base sm:text-lg text-gray-700 mb-3">Lên xe về thẳng Đồng Tháp. Trả ông bà tại Mỹ Quý trước khi về nhà.</p>
+                            <div class="bg-gray-50 p-3 rounded-xl border border-gray-200">
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="bg-white border border-gray-200 px-3 py-1.5 rounded-lg text-sm sm:text-base font-bold text-gray-700 shadow-sm"><i class="fa-solid fa-car"></i> Lái xe: 2h 30p (130 km)</span>
+                                    <span class="bg-green-50 border border-green-200 px-3 py-1.5 rounded-lg text-sm sm:text-base font-bold text-green-700 shadow-sm"><i class="fa-solid fa-battery-three-quarters"></i> Pin về nhà: Còn dư ~50%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 4: Điểm Đến -->
+        <div id="tab-diemden" class="tab-content hidden space-y-4">
+            
             <div class="bg-white rounded-2xl shadow-sm border border-brand-200 overflow-hidden">
-                <div class="bg-brand-50 px-4 sm:px-5 py-3 sm:py-4 border-b border-brand-100 flex items-center gap-3">
-                    <i class="fa-solid fa-check-circle text-brand-600 text-xl sm:text-2xl"></i>
-                    <h2 class="font-bold text-brand-900 text-lg sm:text-xl">Lưu Trú (Đã Đặt 2 đêm)</h2>
+                <div class="bg-brand-50 px-4 py-3 border-b border-brand-100">
+                    <h3 class="font-bold text-brand-800 text-lg flex items-center gap-2"><i class="fa-solid fa-hotel"></i> Khách Sạn Đã Đặt</h3>
                 </div>
-                <div class="p-4 sm:p-5">
-                    <h3 class="text-xl sm:text-2xl font-bold text-gray-900 mb-1">Palmira Beach Resort & Spa (4 Sao)</h3>
-                    <p class="text-brand-600 font-medium mb-3 text-base sm:text-lg"><i class="fa-solid fa-location-dot"></i> 14 Nguyễn Đình Chiểu, Hàm Tiến, Mũi Né</p>
-                    <p class="text-gray-700 text-base sm:text-lg mb-4">Khuôn viên đầy dừa xanh mướt mát mẻ, lối đi phẳng phiu cực tốt cho xương khớp ông bà. Hồ bơi lớn ngay sát bãi biển riêng. Có bãi đậu xe nội bộ an toàn.</p>
-                    
-                    <div class="flex flex-wrap gap-2 sm:gap-3 mt-4">
-                        <a href="https://www.google.com/maps/search/?api=1&query=10.9427,108.2045" target="_blank" class="bg-blue-100 text-blue-700 font-bold px-3 py-2 sm:px-4 sm:py-3 rounded-lg sm:rounded-xl hover:bg-blue-200 text-sm sm:text-base shadow-sm"><i class="fa-solid fa-map"></i> Bản đồ Google Maps</a>
-                        <a href="tel:02523847004" class="bg-green-100 text-green-700 font-bold px-3 py-2 sm:px-4 sm:py-3 rounded-lg sm:rounded-xl hover:bg-green-200 text-sm sm:text-base shadow-sm"><i class="fa-solid fa-phone"></i> Gọi Lễ Tân</a>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Đề Xuất Ẩm Thực Đặc Sản -->
-            <div class="bg-white rounded-2xl shadow-sm border border-orange-200 overflow-hidden">
-                <div class="bg-orange-50 px-4 sm:px-5 py-3 sm:py-4 border-b border-orange-100 flex items-center gap-3">
-                    <i class="fa-solid fa-utensils text-orange-600 text-xl sm:text-2xl"></i>
-                    <h2 class="font-bold text-orange-900 text-lg sm:text-xl">Đề Xuất Quán Ăn Ngon</h2>
-                </div>
-                <div class="divide-y divide-gray-100">
-                    <div class="p-4 sm:p-5 hover:bg-orange-50/50 transition-colors">
-                        <h3 class="text-lg sm:text-xl font-bold text-gray-900">1. Nhà hàng Cơm Niêu Panda (Phan Thiết)</h3>
-                        <p class="text-gray-700 mb-2 sm:mb-3 text-base sm:text-lg mt-1">Đồ ăn mềm (Cá kho, rau luộc), quán máy lạnh, ghế ngồi êm. Điểm dừng chân ăn trưa lượt đi.</p>
-                        <a href="https://www.google.com/maps/search/?api=1&query=10.9238,108.1065" target="_blank" class="text-blue-600 font-medium text-base sm:text-lg"><i class="fa-solid fa-location-arrow text-sm"></i> Dẫn đường Map</a>
-                    </div>
-                    <div class="p-4 sm:p-5 hover:bg-orange-50/50 transition-colors">
-                        <h3 class="text-lg sm:text-xl font-bold text-gray-900">2. Nhà hàng của Palmira Resort</h3>
-                        <p class="text-gray-700 mb-2 sm:mb-3 text-base sm:text-lg mt-1">Menu Alacarte (gọi món) giá từ 200k-300k/người. Ăn trưa ngay tại resort đỡ phải ra ngoài nắng, thức ăn sạch sẽ hợp vệ sinh.</p>
-                    </div>
-                    <div class="p-4 sm:p-5 hover:bg-orange-50/50 transition-colors">
-                        <h3 class="text-lg sm:text-xl font-bold text-gray-900">3. Hải Sản Bờ Kè Mr. Crab (Chi nhánh 2)</h3>
-                        <p class="text-gray-700 mb-2 sm:mb-3 text-base sm:text-lg mt-1">Đường Nguyễn Đình Chiểu. Hải sản tươi sống, không gian siêu rộng đón gió biển.</p>
-                        <a href="https://www.google.com/maps/search/?api=1&query=10.9455,108.2324" target="_blank" class="text-blue-600 font-medium text-base sm:text-lg"><i class="fa-solid fa-location-arrow text-sm"></i> Dẫn đường Map</a>
-                    </div>
-                     <div class="p-4 sm:p-5 hover:bg-orange-50/50 transition-colors">
-                        <h3 class="text-lg sm:text-xl font-bold text-gray-900">4. Hải Sản Cây Bàng (Lựa chọn thay thế Bờ Kè)</h3>
-                        <p class="text-gray-700 mb-2 sm:mb-3 text-base sm:text-lg mt-1">Nếu không thích Bờ Kè ồn ào, quán Cây Bàng có lịch sử lâu đời, không gian rộng rãi, sạch sẽ hơn và đồ ăn rất chất lượng.</p>
-                        <a href="https://www.google.com/maps/search/?api=1&query=10.9388,108.1882" target="_blank" class="text-blue-600 font-medium text-base sm:text-lg"><i class="fa-solid fa-location-arrow text-sm"></i> Dẫn đường Map</a>
-                    </div>
-                     <div class="p-4 sm:p-5 hover:bg-orange-50/50 transition-colors">
-                        <h3 class="text-lg sm:text-xl font-bold text-gray-900">5. Lẩu Thả Seahorse (Đặc sản trứ danh)</h3>
-                        <p class="text-gray-700 mb-2 sm:mb-3 text-base sm:text-lg mt-1">Món ăn nổi tiếng nhất nhì Mũi Né. Cá mai/cá suốt nhúng lẩu thanh mát, bày trí như đóa hoa. Nhà hàng sang trọng, mát mẻ hợp người lớn tuổi.</p>
-                        <a href="https://www.google.com/maps/search/?api=1&query=10.9405,108.2001" target="_blank" class="text-blue-600 font-medium text-base sm:text-lg"><i class="fa-solid fa-location-arrow text-sm"></i> Dẫn đường Map</a>
-                    </div>
-                     <div class="p-4 sm:p-5 hover:bg-orange-50/50 transition-colors">
-                        <h3 class="text-lg sm:text-xl font-bold text-gray-900">6. Bánh canh Xíu</h3>
-                        <p class="text-gray-700 mb-2 sm:mb-3 text-base sm:text-lg mt-1">Bánh canh chả cá siêu ngon, rẻ, là địa điểm ăn đêm yêu thích của nhiều người.</p>
-                        <a href="https://www.google.com/maps/search/?api=1&query=10.9255,108.0950" target="_blank" class="text-blue-600 font-medium text-base sm:text-lg"><i class="fa-solid fa-location-arrow text-sm"></i> Dẫn đường Map</a>
-                    </div>
-                     <div class="p-4 sm:p-5 hover:bg-orange-50/50 transition-colors">
-                        <h3 class="text-lg sm:text-xl font-bold text-gray-900">7. Đặc Sản Dông Cát (Quán Vietnam Home)</h3>
-                        <p class="text-gray-700 mb-2 sm:mb-3 text-base sm:text-lg mt-1">Nằm trên đường Nguyễn Đình Chiểu. Các món từ Dông (bò sát cát) như Dông nướng, chả dông cực kỳ độc đáo và ngon miệng.</p>
-                        <a href="https://www.google.com/maps/search/?api=1&query=10.9431,108.2163" target="_blank" class="text-blue-600 font-medium text-base sm:text-lg"><i class="fa-solid fa-location-arrow text-sm"></i> Dẫn đường Map</a>
-                    </div>
-                    <div class="p-4 sm:p-5 hover:bg-orange-50/50 transition-colors">
-                        <h3 class="text-lg sm:text-xl font-bold text-gray-900">8. Bánh Căn Lữ Gia / Bánh Xèo Cây Phượng</h3>
-                        <p class="text-gray-700 mb-2 sm:mb-3 text-base sm:text-lg mt-1">Món ăn vặt xế chiều tuyệt hảo. Bánh căn hải sản giòn rụm chấm nước mắm nêm hoặc nước mắm cá kho đặc trưng Phan Thiết.</p>
+                <div class="p-4">
+                    <h4 class="font-bold text-xl text-gray-900">Palmira Beach Resort & Spa</h4>
+                    <p class="text-gray-600 text-sm mb-3">14 Nguyễn Đình Chiểu, Mũi Né (Cách SG 190km)</p>
+                    <p class="text-gray-700 mb-4">Resort rất nhiều cây xanh mát mẻ, lối đi phẳng phiu tốt cho xương khớp ông bà. Hồ bơi lớn ngay sát bãi biển riêng. Có bãi đậu xe an toàn (có thể kéo dây sạc 220V).</p>
+                    <div class="flex flex-wrap gap-2">
+                        <a href="https://maps.app.goo.gl/PalmiraResort" target="_blank" class="bg-blue-100 text-blue-700 font-bold py-2 px-4 rounded-xl flex items-center gap-2 shadow-sm"><i class="fa-solid fa-map"></i> Mở Map</a>
                     </div>
                 </div>
             </div>
 
-            <!-- Các Điểm Vui Chơi -->
-            <div class="bg-white rounded-2xl shadow-sm border border-indigo-200 overflow-hidden">
-                <div class="bg-indigo-50 px-4 sm:px-5 py-3 sm:py-4 border-b border-indigo-100 flex items-center gap-3">
-                    <i class="fa-solid fa-camera-retro text-indigo-600 text-xl sm:text-2xl"></i>
-                    <h2 class="font-bold text-indigo-900 text-lg sm:text-xl">Điểm Vui Chơi (Dành cho gia đình)</h2>
+            <div class="bg-white rounded-2xl shadow-sm border border-orange-200 overflow-hidden">
+                <div class="bg-orange-50 px-4 py-3 border-b border-orange-100">
+                    <h3 class="font-bold text-orange-800 text-lg flex items-center gap-2"><i class="fa-solid fa-utensils"></i> Đặc Sản & Quán Ăn</h3>
                 </div>
-                <div class="divide-y divide-gray-100">
-                    <div class="p-4 sm:p-5 hover:bg-indigo-50/50 transition-colors">
-                        <h3 class="text-lg sm:text-xl font-bold text-gray-900">1. Đồi Cát Đỏ (Mũi Né)</h3>
-                        <p class="text-gray-700 mb-2 sm:mb-3 text-base sm:text-lg mt-1">Rất gần khu resort, đi bộ ít. Bé có thể chơi trượt cát (cẩn thận cát nóng vào buổi trưa).</p>
-                        <a href="https://www.google.com/maps/search/?api=1&query=10.9507,108.2974" target="_blank" class="text-blue-600 font-medium text-base sm:text-lg"><i class="fa-solid fa-location-arrow text-sm"></i> Dẫn đường Map</a>
+                <div class="p-4 space-y-4">
+                    <div class="border-b border-gray-100 pb-3">
+                        <h4 class="font-bold text-lg text-gray-900">1. Cơm Niêu Panda (Phan Thiết)</h4>
+                        <p class="text-gray-700 mt-1">Đồ ăn mềm (Cá kho, rau luộc), quán máy lạnh, ghế ngồi êm. Điểm dừng chân ăn trưa lượt đi rất lý tưởng.</p>
                     </div>
-                    <div class="p-4 sm:p-5 hover:bg-indigo-50/50 transition-colors">
-                        <h3 class="text-lg sm:text-xl font-bold text-gray-900">2. Bảo tàng Làng Chài Xưa (Fish Sauce Museum)</h3>
-                        <p class="text-gray-700 mb-2 sm:mb-3 text-base sm:text-lg mt-1">Không gian máy lạnh 100%, đường đi bằng phẳng. Tìm hiểu lịch sử làm nước mắm qua các tiểu cảnh 3D ấn tượng. Ông bà rất chuộng điểm này.</p>
-                        <a href="https://www.google.com/maps/search/?api=1&query=10.9328,108.1561" target="_blank" class="text-blue-600 font-medium text-base sm:text-lg"><i class="fa-solid fa-location-arrow text-sm"></i> Dẫn đường Map</a>
+                    <div class="border-b border-gray-100 pb-3">
+                        <h4 class="font-bold text-lg text-gray-900">2. Lẩu Thả Phan Thiết</h4>
+                        <p class="text-gray-700 mt-1">Món lẩu đặc sản thanh mát làm từ cá mai, bắp chuối, khế chua. Ăn không bị ngán. Rất tốt cho sức khỏe.</p>
                     </div>
-                    <div class="p-4 sm:p-5 hover:bg-indigo-50/50 transition-colors">
-                        <h3 class="text-lg sm:text-xl font-bold text-gray-900">3. NovaWorld Phan Thiết</h3>
-                        <p class="text-gray-700 mb-2 sm:mb-3 text-base sm:text-lg mt-1">Khu vui chơi giải trí khổng lồ. Có công viên nước, công viên giải trí kiểu Mỹ. Rất thích hợp cho bé. (Nơi đây có trạm sạc EV ONE siêu nhanh).</p>
-                        <a href="https://www.google.com/maps/search/?api=1&query=10.8716,107.9943" target="_blank" class="text-blue-600 font-medium text-base sm:text-lg"><i class="fa-solid fa-location-arrow text-sm"></i> Dẫn đường Map</a>
-                    </div>
-                    <div class="p-4 sm:p-5 hover:bg-indigo-50/50 transition-colors">
-                        <h3 class="text-lg sm:text-xl font-bold text-gray-900">4. Lâu Đài Rượu Vang RD</h3>
-                        <p class="text-gray-700 mb-2 sm:mb-3 text-base sm:text-lg mt-1">Nằm trong khu Sea Links. Kiến trúc châu âu đẹp mắt, hầm rượu vang mát lạnh dưới lòng đất, người lớn được thử rượu vang.</p>
-                        <a href="https://www.google.com/maps/search/?api=1&query=10.9395,108.1818" target="_blank" class="text-blue-600 font-medium text-base sm:text-lg"><i class="fa-solid fa-location-arrow text-sm"></i> Dẫn đường Map</a>
+                    <div>
+                        <h4 class="font-bold text-lg text-gray-900">3. Hải Sản Bờ Kè Mr. Crab</h4>
+                        <p class="text-gray-700 mt-1">Đường Nguyễn Đình Chiểu. Hải sản tươi sống, không gian siêu rộng đón gió biển.</p>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- Tab 5: Chi Phí -->
-        <div id="tab-chiphi" class="tab-content mt-2">
+        <div id="tab-chiphi" class="tab-content hidden space-y-4">
             <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
-                <div class="bg-green-600 px-4 sm:px-5 py-3 sm:py-4 flex items-center gap-3">
-                    <i class="fa-solid fa-coins text-white text-xl sm:text-2xl"></i>
-                    <h2 class="font-bold text-white text-lg sm:text-xl">Bảng Dự Toán Ngân Sách</h2>
+                <div class="bg-gray-50 px-4 py-3 border-b border-gray-200">
+                    <h3 class="font-bold text-gray-800 text-lg flex items-center gap-2"><i class="fa-solid fa-wallet"></i> Dự Toán Chi Phí (5 Người)</h3>
                 </div>
-                <div class="p-4 sm:p-5">
-                    <p class="text-gray-600 mb-4 sm:mb-5 text-base sm:text-lg">Bảng ngân sách được tính toán mức chi tiêu khá thoải mái cho gia đình 5 người (3 người lớn + 2 ông bà già + 1 trẻ em) trong dịp Lễ.</p>
-                    
-                    <div class="space-y-3 sm:space-y-4">
-                        <div class="flex justify-between items-center border-b pb-2 sm:pb-3">
-                            <div>
-                                <h4 class="font-bold text-gray-800 text-base sm:text-lg">1. Chi phí Xe Cộ (EV)</h4>
-                                <p class="text-xs sm:text-sm text-gray-500">Phí cao tốc (400k) + Sạc điện nhanh EV (400k)</p>
-                            </div>
-                            <span class="font-bold text-base sm:text-lg text-gray-900">800.000đ</span>
+                <div class="p-4">
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center border-b border-gray-100 pb-2">
+                            <span class="text-gray-700 font-medium">Lưu trú (2 đêm Palmira)</span>
+                            <span class="font-bold">Đã thanh toán</span>
                         </div>
-                        <div class="flex justify-between items-center border-b pb-2 sm:pb-3">
-                            <div>
-                                <h4 class="font-bold text-gray-800 text-base sm:text-lg">2. Lưu Trú (Palmira Resort)</h4>
-                                <p class="text-xs sm:text-sm text-gray-500">2 Đêm (đã bao gồm ăn sáng)</p>
-                            </div>
-                            <span class="font-bold text-base sm:text-lg text-gray-900">5.000.000đ</span>
+                        <div class="flex justify-between items-center border-b border-gray-100 pb-2">
+                            <span class="text-gray-700 font-medium">Sạc xe EV (Siêu tiết kiệm)</span>
+                            <span class="font-bold text-green-600">~ 400.000 đ</span>
                         </div>
-                        <div class="flex justify-between items-center border-b pb-2 sm:pb-3">
-                            <div>
-                                <h4 class="font-bold text-gray-800 text-base sm:text-lg">3. Ăn Uống (3 Ngày)</h4>
-                                <p class="text-xs sm:text-sm text-gray-500">6 bữa chính x ~1.000.000đ + Cafe, ăn vặt</p>
-                            </div>
-                            <span class="font-bold text-base sm:text-lg text-gray-900">6.500.000đ</span>
+                        <div class="flex justify-between items-center border-b border-gray-100 pb-2">
+                            <span class="text-gray-700 font-medium">Phí cầu đường (Cao tốc)</span>
+                            <span class="font-bold text-gray-900">~ 600.000 đ</span>
                         </div>
-                        <div class="flex justify-between items-center border-b pb-2 sm:pb-3">
-                            <div>
-                                <h4 class="font-bold text-gray-800 text-base sm:text-lg">4. Vé Tham Quan</h4>
-                                <p class="text-xs sm:text-sm text-gray-500">Vé Bảo tàng, Đồi cát...</p>
-                            </div>
-                            <span class="font-bold text-base sm:text-lg text-gray-900">500.000đ</span>
+                        <div class="flex justify-between items-center border-b border-gray-100 pb-2">
+                            <span class="text-gray-700 font-medium">Ăn uống (Trưa/Tối x 3 ngày)</span>
+                            <span class="font-bold text-gray-900">~ 6.000.000 đ</span>
                         </div>
-                        <div class="flex justify-between items-center border-b pb-2 sm:pb-3">
-                            <div>
-                                <h4 class="font-bold text-gray-800 text-base sm:text-lg">5. Quỹ Dự Phòng</h4>
-                                <p class="text-xs sm:text-sm text-gray-500">Mua sắm đặc sản, phát sinh linh tinh</p>
-                            </div>
-                            <span class="font-bold text-base sm:text-lg text-gray-900">1.500.000đ</span>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-700 font-medium">Linh tinh (Vé tham quan, cafe)</span>
+                            <span class="font-bold text-gray-900">~ 1.500.000 đ</span>
                         </div>
                     </div>
-
-                    <div class="mt-5 sm:mt-6 bg-green-50 rounded-xl p-3 sm:p-4 flex justify-between items-center border border-green-200">
-                        <h3 class="font-black text-green-900 text-xl sm:text-2xl">TỔNG CỘNG</h3>
-                        <span class="font-black text-green-700 text-xl sm:text-2xl">14.300.000 VNĐ</span>
+                    <div class="mt-4 bg-brand-50 p-3 rounded-xl border border-brand-100 flex justify-between items-center">
+                        <span class="font-bold text-brand-800">DỰ TRÙ TỔNG MANG THEO</span>
+                        <span class="font-black text-xl text-brand-700">~ 8.500.000 đ</span>
                     </div>
                 </div>
             </div>
         </div>
-
+        
     </main>
 
-    <div class="fixed bottom-4 sm:bottom-6 right-3 sm:right-8 flex flex-col gap-3 sm:gap-4 z-50 hide-on-print">
-        <!-- Nút Định vị -->
-        <button onclick="scrollToCurrentTime()" class="bg-indigo-600 text-white w-12 h-12 sm:w-14 sm:h-14 rounded-full shadow-lg border-2 border-white hover:scale-110 flex items-center justify-center text-xl sm:text-2xl transition-all" title="Vị trí lịch trình hiện tại">
-            <i class="fa-solid fa-crosshairs"></i>
+    <!-- Floating Action Buttons -->
+    <div class="fab-container">
+        <button onclick="scrollToCurrentTime()" class="fab-btn fab-location" title="Vị trí hiện tại">
+            <i class="fa-solid fa-crosshairs text-xl"></i>
         </button>
-        <!-- Nút In Ấn -->
-        <button onclick="window.print()" class="bg-gray-800 text-white w-12 h-12 sm:w-14 sm:h-14 rounded-full shadow-lg border-2 border-white hover:scale-110 flex items-center justify-center text-xl sm:text-2xl transition-all" title="In ra giấy A4">
-            <i class="fa-solid fa-print"></i>
+        <button onclick="window.print()" class="fab-btn fab-print" title="In Kế Hoạch">
+            <i class="fa-solid fa-print text-xl"></i>
         </button>
     </div>
 
     <script>
-        // Hàm chuyển Tab
-        function openTab(tabName) {
+        // Tab switching logic
+        function switchTab(tabId) {
+            // Hide all tabs
             document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
+                tab.classList.remove('block');
+                tab.classList.add('hidden');
             });
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active', 'text-brand-600', 'border-b-2', 'border-brand-500', 'bg-brand-50');
-                btn.classList.add('text-gray-500');
-            });
-            
-            document.getElementById(tabName).classList.add('active');
-            
-            const activeBtn = Array.from(document.querySelectorAll('.tab-btn')).find(btn => btn.getAttribute('onclick').includes(tabName));
-            if(activeBtn) {
-                activeBtn.classList.remove('text-gray-500');
-                activeBtn.classList.add('active', 'text-brand-600', 'border-b-2', 'border-brand-500', 'bg-brand-50');
-                // Cuộn menu sao cho nút được chọn luôn hiển thị trên màn hình
-                activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-            }
-        }
+            // Show selected tab
+            document.getElementById('tab-' + tabId).classList.remove('hidden');
+            document.getElementById('tab-' + tabId).classList.add('block');
 
-        // Hàm Đóng Mở Accordion (Ngày)
-        function toggleAccordion(id) {
-            const content = document.getElementById(id);
-            const icon = document.getElementById('icon-' + id);
-            
-            if (content.style.maxHeight && content.style.maxHeight !== '0px') {
-                content.style.maxHeight = '0px';
-                icon.classList.remove('rotate-180', 'text-brand-500');
-            } else {
-                content.style.maxHeight = content.scrollHeight + 1500 + "px";
-                icon.classList.add('rotate-180', 'text-brand-500');
-            }
-        }
-
-        // Hàm Định vị Vị trí (Tự động mở Tab lịch trình và cuộn đến mục cụ thể)
-        function scrollToCurrentTime() {
-            openTab('tab-lichtrinh');
-            
-            // Xóa trạng thái active cũ
-            document.querySelectorAll('.active-schedule-item').forEach(el => {
-                el.classList.remove('active-schedule-item');
+            // Reset tab button styles
+            document.querySelectorAll('header button').forEach(btn => {
+                btn.classList.remove('text-brand-600', 'border-brand-500', 'bg-brand-50');
+                btn.classList.add('text-gray-500', 'border-transparent');
+                btn.querySelector('i').classList.remove('text-brand-500');
             });
 
-            // Chọn mốc 14:00 Ngày 1 (Check-in) làm ví dụ demo
-            const targetDayId = 'day1';
-            const targetScheduleId = 'schedule-day1-1400'; 
+            // Set active style to selected button
+            let activeBtn = document.getElementById('btn-' + tabId);
+            activeBtn.classList.remove('text-gray-500', 'border-transparent');
+            activeBtn.classList.add('text-brand-600', 'border-brand-500', 'bg-brand-50');
             
-            const content = document.getElementById(targetDayId);
-            const icon = document.getElementById('icon-' + targetDayId);
-            
-            // Đảm bảo accordion của Ngày được mở
-            if (content.style.maxHeight === '' || content.style.maxHeight === '0px') {
-                content.style.maxHeight = content.scrollHeight + 1500 + 'px'; 
-                icon.classList.add('rotate-180', 'text-brand-500');
-            }
-            
-            // Đợi CSS transition chạy xong rồi mới cuộn
-            setTimeout(() => {
-                const targetElement = document.getElementById(targetScheduleId);
-                if (targetElement) {
-                    targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    // Thêm class nhấp nháy vào thẻ hiển thị nội dung
-                    const innerBox = targetElement.querySelector('.flex-1');
-                    if(innerBox) innerBox.classList.add('active-schedule-item');
+            // Auto open Day 1 when Schedule tab is selected
+            if(tabId === 'lichtrinh') {
+                if(document.getElementById('content-day1').style.maxHeight === "" || document.getElementById('content-day1').style.maxHeight === "0px") {
+                    toggleAccordion('day1');
                 }
-            }, 400);
+            }
         }
+
+        // Accordion logic (Days)
+        function toggleAccordion(dayId) {
+            let content = document.getElementById('content-' + dayId);
+            let icon = document.getElementById('icon-' + dayId);
+            
+            if (content.style.maxHeight && content.style.maxHeight !== "0px") {
+                content.style.maxHeight = "0px";
+                icon.style.transform = "rotate(0deg)";
+            } else {
+                // Set height dynamic based on scrollHeight
+                content.style.maxHeight = content.scrollHeight + "px";
+                icon.style.transform = "rotate(180deg)";
+                
+                // Adjust height if content expands inside (lazy fix)
+                setTimeout(() => { content.style.maxHeight = "fit-content"; }, 400);
+            }
+        }
+
+        // Scroll to Current Time logic (Mockup for demonstration)
+        function scrollToCurrentTime() {
+            // Ensure Schedule tab is open
+            switchTab('lichtrinh');
+            
+            // Open Day 1 accordion
+            let day1Content = document.getElementById('content-day1');
+            if (!day1Content.style.maxHeight || day1Content.style.maxHeight === "0px") {
+                toggleAccordion('day1');
+            }
+
+            // Simulate finding "07:45"
+            setTimeout(() => {
+                let currentEvent = document.getElementById('schedule-day1-0745');
+                if (currentEvent) {
+                    currentEvent.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    
+                    // Add blink effect
+                    currentEvent.classList.add('active-schedule-item');
+                    setTimeout(() => {
+                        currentEvent.classList.remove('active-schedule-item');
+                    }, 3000);
+                }
+            }, 500); // wait for accordion to open
+        }
+
+        // Initialize first tab
+        switchTab('tongquan');
     </script>
 </body>
 </html>
